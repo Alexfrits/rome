@@ -5,7 +5,7 @@
 * ------------------------------
 *   1. Langues
 *   2. Scripts
-*   3. 
+*   3. Styles
 */
 
 
@@ -28,5 +28,15 @@ function rome_scripts() {
 }
 add_action('wp_enqueue_scripts', 'rome_scripts');
 add_action('admin_enqueue_scripts', 'rome_scripts');
+
+
+/*  3. STYLES
+===================================================================*/
+
+function rome_styles() {
+  wp_enqueue_style('main', get_template_directory_uri().'/style.css');
+}
+
+add_action( 'wp_enqueue_scripts', 'rome_styles');
 
 ?>

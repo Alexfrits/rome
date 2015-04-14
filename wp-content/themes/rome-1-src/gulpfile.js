@@ -53,11 +53,11 @@ gulp.task('styles', function() {
 gulp.task('scripts', function() {
   return gulp.src([srcDir + 'js/*.js'], { base: srcDir})
   .pipe(plugins.concat('main.js'))
-  .pipe(gulp.dest(srcDir + 'js/'))
+  .pipe(gulp.dest(buildDir + 'js/'))
   .pipe(plugins.rename({ suffix: '.min' }))
   .pipe(plugins.uglify())
   .pipe(plugins.livereload(server))
-  .pipe(gulp.dest(buildDir));
+  .pipe(gulp.dest(buildDir + '/js'));
 });
  
 // // Images

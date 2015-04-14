@@ -83,3 +83,4 @@ wp-content/wp-cache-config.php
 # tests theme not to be included in the repo
 wp-content/themes/gulp-bower-sass
 wp-content/themes/rome-1-build
+wp-content/themes/mon-super-theme

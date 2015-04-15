@@ -1,6 +1,13 @@
 {
   "name": "rome-1",
   "version": "1.0.0",
+  "description": "Alea Jacta Est",
+  "author": "Fritsness (frits.alex@gmail.com) & meduz' (meduzen@gmail.com)",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Alexfrits/rome/blob/master/wp-content/themes/rome-1-src/package.json"
+    },
   "dependencies": {},
   "devDependencies": {
     "gulp": "~3.5.1",

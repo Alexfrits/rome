@@ -23,7 +23,7 @@ add_action('after_setup_theme', 'rome_setup');
 
 function rome_scripts() {
   wp_enqueue_script('google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false');
-  wp_enqueue_script('main-script', get_template_directory_uri().'/js/main.min.js', null);
+  wp_enqueue_script('main-script', get_template_directory_uri().'/js/main.min.js', array('google-maps'));
   // wp_enqueue_script('google-jsapi','https://www.google.com/jsapi');
 }
 add_action('wp_enqueue_scripts', 'rome_scripts');

@@ -3,6 +3,8 @@
 ===================================================================*/
 
 (function($) {
+    // var qui va contenir l'infowindow ouverte
+  var openWindow = 0;
 
 /*
 *  render_map
@@ -86,6 +88,10 @@ function add_marker( $marker, map ) {
     // show info window when marker is clicked
     google.maps.event.addListener(marker, 'click', function() {
 
+      if (openWindow !== 0) {
+        openWindow.close();
+      }
+      openWindow = infowindow;
       infowindow.open( map, marker );
 
     });

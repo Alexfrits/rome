@@ -1,13 +1,19 @@
 <aside>
     <h2>Nos visites</h2>
     <ul>
-        <li><a href="<?php echo home_url(); ?>/visites/places-de-rome">Places de Rome</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/antique"> Antique</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/chretienne">Chrétienne</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/baroque">Baroque</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/medieval">Médiévale</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/la-nuit">By Night</a></li>
-        <li><a href="<?php echo home_url(); ?>/visites/etrusque">Etrusque</a></li>
+
+<?php
+
+$args = [
+    'taxonomy'      => 'visites',
+    'hide_empty'    => 0 // remove me after populating the database!
+];
+$visites = get_categories($args); ?>
+
+<?php foreach ($visites as $i => $v): ?>
+    <li><a href=<?php echo '"'.home_url().'/visites/'.$v->slug.'">'.$v->name; ?></a></li>
+<?php endforeach; ?>
+
     </ul>
     <h2>Infos Pratiques</h2>
     <ul>

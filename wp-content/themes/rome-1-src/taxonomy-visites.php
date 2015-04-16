@@ -12,7 +12,10 @@
         <?php the_post(); ?>
         <h3><?php the_title(); ?></h3>
         <p><?php the_content(); ?></p>
-        <p>Durée de la visite&nbsp;: <?php the_field('duree_de_la_visite'); ?></p>
+        <?php if(get_field('duree_de_la_visite')):?>
+            <p>Durée de la visite&nbsp;: <?php the_field('duree_de_la_visite'); ?>
+        <?php endif; ?>
+        </p>
         <?php
             // stockage titre du lieu
             $location[] = get_the_title();
@@ -34,7 +37,7 @@
 ==================================================================-->
 <?php
     // affiche l'array
-    a($locations);
+    // a($locations);
 ?>
 
 <?php

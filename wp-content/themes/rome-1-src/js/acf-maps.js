@@ -87,16 +87,22 @@ function add_marker( $marker, map ) {
 
     // show info window when marker is clicked
     google.maps.event.addListener(marker, 'click', function() {
-
+      // si une infowindow est ouverte
+      if (openWindow !== 0) {
+        // on la ferme
+        openWindow.close();
+      }
+      // on ouvre la nouvelle
+      openWindow = infowindow;
+      infowindow.open( map, marker );
+    });
+    // Quand on clique sur la carte, si une infowindow est ouverte, on la ferme
+    google.maps.event.addListener(map, 'click', function () {
       if (openWindow !== 0) {
         openWindow.close();
       }
-      openWindow = infowindow;
-      infowindow.open( map, marker );
-
     });
   }
-
 }
 
 /*

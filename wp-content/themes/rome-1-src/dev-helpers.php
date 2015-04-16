@@ -18,9 +18,9 @@
         <?php now_in(__FILE__) ?>
 */
     function now_in($file) {
-        $file = explode('\\', $file);
+        $file = explode('/', $file);
+        // $file = explode('\\', $file);
         $n = count($file);
-
         echo '<p class="debug-msg">Now in: ';
         if($n > 1) // display parent directory if it exists
             echo $file[$n-2].'/';

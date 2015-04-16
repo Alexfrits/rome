@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-
 <?php now_in(__FILE__) ?>
 
 <p><?php _e( 'test', 'rome-1' ); ?></p>

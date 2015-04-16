@@ -1,4 +1,4 @@
-<?php get_header(); // header.php ?>
+<?php get_header(); ?>
 
 <?php now_in(__FILE__) ?>
 
@@ -33,5 +33,5 @@
 
 
 
-<?php get_sidebar(); // sidebar.php ?>
-<?php get_footer(); // footer.php ?>
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>

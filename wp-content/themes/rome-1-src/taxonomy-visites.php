@@ -46,12 +46,15 @@
         <?php
             $locationTitle = $location[0];
             $locationContent = $location[1];
-            $locationAddress = $location[2];
-        ?>
-        <div class="marker" data-lat="<?php echo $locationAddress['lat']; ?>" data-lng="<?php echo $locationAddress['lng']; ?>">
-            <h3><?php echo $locationTitle; ?></h3>
-            <div><?php echo $locationContent; ?></div>
-        </div>
+            // vérifie si le lieux a des infos de coordonnées
+            if(count($location[2]) === 3):
+                $locationAddress = $location[2]; ?>
+                <!-- si oui, crée un marker -->
+                <div class="marker" data-lat="<?php echo $locationAddress['lat']; ?>" data-lng="<?php echo $locationAddress['lng']; ?>">
+                    <h3><?php echo $locationTitle; ?></h3>
+                    <div><?php echo $locationContent; ?></div>
+                </div>
+            <?php endif; ?>
     <?php endforeach; ?>
     </div>
 <?php endif; ?>

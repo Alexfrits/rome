@@ -1,6 +1,6 @@
 <!doctype html>
 <html <?php language_attributes(); ?>>
-<?php include('dev-helpers.php'); ?>
+<?php include_once('dev-helpers.php'); ?>
 <head>
 	<meta charset="utf-8">
 	<title><?php wp_title(); ?></title>

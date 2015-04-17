@@ -1,12 +1,4 @@
 <?php get_header(); ?>
-
-<!-- /////////////////////////////////////////////////
-
-    Ce fichier n'est pas utilisé en tant que tel par WP,
-    il est inclu dans page-infospratiques.php, qui l'affiche
-
-//////////////////////////////////////////////////////-->
-
 <?php now_in(__FILE__) ?>
 
 <?php echo home_url(); ?>
@@ -16,10 +8,14 @@
     <?php
         // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
         $locations = [];
-        while(have_posts()) :$location=[];?>
+        while(have_posts()) : $location=[];?>
         <?php the_post(); ?>
         <h3><?php the_title(); ?></h3>
         <p><?php the_content(); ?></p>
+        <?php if(get_field('duree_de_la_visite')):?>
+            <p>Durée de la visite&nbsp;: <?php the_field('duree_de_la_visite'); ?>
+        <?php endif; ?>
+        </p>
         <?php
             // stockage titre du lieu
             $location[] = get_the_title();
@@ -35,46 +31,14 @@
         ?>
     <?php endwhile; ?>
 <?php endif; ?>
-<?php
-
-// Vol sans vergogne du code de la sidebar par Mehdi
-
-a(get_post_types());
-
-$args = [
-    'taxonomy'      => 'infos-pratiques',
-    'hide_empty'    => 1
-];
-$visites = get_categories($args); ?>
-
-<?php foreach ($visites as $i => $v): ?>
-    <li><a href=<?php echo '"'.home_url().'/infos-pratiques/'.$v->slug.'">'.$v->name; ?></a></li>
-<?php endforeach; ?>
-
-<!-- Quand on a le JS -->
-<!--
-<div>
-    <form action="">
-        <label for="">
-            <span>Musées</span>
-            <input name="" id="" type="checkbox">
-        </label>
-        <label for="">
-            <span>Manger</span>
-            <input name="" id="" type="checkbox">
-        </label>
-        <label for="">
-            <span>Dormir</span>
-            <input name="" id="" type="checkbox">
-        </label>
-    </form>
-</div>
-
--->
-
+    
 
 <!--  AFFICHAGE GOOGLE MAPS
 ==================================================================-->
+<?php
+    // affiche l'array
+    // a($locations);
+?>
 
 <?php
     if( !empty($locations) ):

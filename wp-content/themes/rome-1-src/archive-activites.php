@@ -12,66 +12,63 @@
 <?php echo home_url(); ?>
 
 
-<?php if(have_posts()) : ?>
-    <?php
-        // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
-        $locations = [];
-        while(have_posts()) :$location=[];?>
-        <?php the_post(); ?>
-        <h3><?php the_title(); ?></h3>
-        <p><?php the_content(); ?></p>
-        <?php
-            // stockage titre du lieu
-            $location[] = get_the_title();
-            // stockage contenu de l'article
-            $location[] = get_the_content();
-            // stockage infos gmaps
-            $location[] = get_field('google_map');
-            // vérifie si le lieu a les infos de position
-            if( !empty($location) ):
-                // pousse les infos dans l'array à chaque lieu
-                $locations[] = $location;
-            endif;
-        ?>
-    <?php endwhile; ?>
-<?php endif; ?>
-<?php
-
-// Vol sans vergogne du code de la sidebar par Mehdi
-
-a(get_post_types());
-
-$args = [
-    'taxonomy'      => 'infos-pratiques',
-    'hide_empty'    => 1
-];
-$visites = get_categories($args); ?>
-
-<?php foreach ($visites as $i => $v): ?>
-    <li><a href=<?php echo '"'.home_url().'/infos-pratiques/'.$v->slug.'">'.$v->name; ?></a></li>
-<?php endforeach; ?>
-
-<!-- Quand on a le JS -->
+<!--  MODIFICATION de la boucle (car on est dans un autre fichier)
+==================================================================-->
 <!--
-<div>
-    <form action="">
-        <label for="">
-            <span>Musées</span>
-            <input name="" id="" type="checkbox">
-        </label>
-        <label for="">
-            <span>Manger</span>
-            <input name="" id="" type="checkbox">
-        </label>
-        <label for="">
-            <span>Dormir</span>
-            <input name="" id="" type="checkbox">
-        </label>
-    </form>
-</div>
-
+    cette boucle n'affiche rien,
+    elle récup les infos et crée l'array
+    pour l'affichage des markers de la map
 -->
 
+<?php
+
+    $args = array('post_type' => 'activites' );
+
+    // The Query
+    $the_query = new WP_Query( $args );
+
+    // The Loop
+    if ( $the_query->have_posts() ): ?>
+        <ul>
+            <?php
+            $locations = [];
+            while($the_query->have_posts()): 
+                $location = [];
+                $the_query->the_post();
+                $location[] = get_the_title();
+                $location[] = get_field('google_map');
+                if( !empty($location) ):
+                    $locations[] = $location;
+                endif;
+            endwhile; ?>
+        </ul>
+        <?php a($locations); ?>
+    <?php else: ?>
+        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+    <?php endif;
+    wp_reset_postdata();
+?>
+
+
+<!--  Contrôles customs et filtres pour la map
+==================================================================-->
+<!--
+    GMCC = Google Maps Custom Controls
+    cette classe est utilisée par le JS dans infospratiques.js
+-->
+
+<ul class="gmcc">
+    <?php
+    $args = [
+        'taxonomy'      => 'infospratiques',
+        'hide_empty'    => 1
+    ];
+    $visites = get_categories($args); ?>
+
+    <?php foreach ($visites as $i => $v): ?>
+        <li><a class="gmcc__filter" href=<?php echo '"'.home_url().'/infospratiques/'.$v->slug.'">'.$v->name; ?></a></li>
+    <?php endforeach; ?>
+</ul>
 
 <!--  AFFICHAGE GOOGLE MAPS
 ==================================================================-->
@@ -86,8 +83,8 @@ $visites = get_categories($args); ?>
             $locationTitle = $location[0];
             $locationContent = $location[1];
             // vérifie si le lieux a des infos de coordonnées
-            if(count($location[2]) === 3):
-                $locationAddress = $location[2]; ?>
+            if(count($location[1]) === 3):
+                $locationAddress = $location[1]; ?>
                 <!-- si oui, crée un marker -->
                 <div class="marker" data-lat="<?php echo $locationAddress['lat']; ?>" data-lng="<?php echo $locationAddress['lng']; ?>">
                     <h3><?php echo $locationTitle; ?></h3>

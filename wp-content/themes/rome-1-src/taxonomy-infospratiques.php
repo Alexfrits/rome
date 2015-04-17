@@ -32,6 +32,19 @@
     <?php endwhile; ?>
 <?php endif; ?>
     
+    
+<?php
+    // Vol sans vergogne du code de la sidebar par Mehdi
+
+$args = [
+    'taxonomy'      => 'infospratiques',
+    'hide_empty'    => 1
+];
+$visites = get_categories($args); ?>
+
+<?php foreach ($visites as $i => $v): ?>
+    <li><a href=<?php echo '"'.home_url().'/infospratiques/'.$v->slug.'">'.$v->name; ?></a></li>
+<?php endforeach; ?>
 
 <!--  AFFICHAGE GOOGLE MAPS
 ==================================================================-->

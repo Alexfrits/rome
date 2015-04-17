@@ -10,13 +10,13 @@
 <body>
 <div id="wrapper">
 <header>
-	<h1>Visiter Rome</h1>
+	<h1><a href="<?php echo home_url();?>">Visiter Rome</a></h1>
 	<nav>
     	<ul>
 			<li><a href="">Accueil</a> </li>
 			<li><a href="">Visites</a> </li>
 			<li><a href="">Guides</a></li>
-			<li><a href="">Tarifs et réservations</a> </li>
+			<li><a href="<?php echo home_url(); ?>/tarifs-et-reservations/">Tarifs et réservations</a> </li>
 	    </ul>
 	</nav>
     <div id="deco"></div>

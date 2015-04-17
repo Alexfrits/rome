@@ -4,9 +4,11 @@
 
 <?php
 
+// récupération des catégories (taxonomies) de visite
+
 $args = [
     'taxonomy'      => 'visites',
-    'hide_empty'    => 0 // remove me after populating the database!
+    'hide_empty'    => 1
 ];
 $visites = get_categories($args); ?>
 

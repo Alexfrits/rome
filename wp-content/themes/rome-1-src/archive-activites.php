@@ -33,7 +33,7 @@
         <ul>
             <?php
             $locations = [];
-            while($the_query->have_posts()): 
+            while($the_query->have_posts()):
                 // init / vide l'array
                 $location = [];
                 $the_query->the_post();
@@ -71,22 +71,23 @@
         GMCC = Google Maps Custom Controls
         cette classe est utilisée par le JS dans acf-maps.js
     -->
-    <ul class="gmcc">
-        <?php
-        $args = [
-            'taxonomy'      => 'infospratiques',
-            'hide_empty'    => 1
-        ];
-        $visites = get_categories($args); ?>
+    <div id="gmcc_wrapper">
+        <ul class="gmcc">
+            <?php
+            $args = [
+                'taxonomy'      => 'infospratiques',
+                'hide_empty'    => 1
+            ];
+            $visites = get_categories($args); ?>
 
-        <?php foreach ($visites as $i => $v): ?>
-            <li><a class="gmcc__filter" data-cat="<?php echo $v->slug; ?>" href=<?php echo '"'.home_url().'/infospratiques/'.$v->slug.'">'.$v->name; ?></a></li>
-        <?php endforeach; ?>
-    </ul>
+            <?php foreach ($visites as $i => $v): ?>
+                <li class="gmcc__filter"><a data-cat="<?php echo $v->slug; ?>" href=<?php echo '"'.home_url().'/infospratiques/'.$v->slug.'">'.$v->name; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
     <!--  AFFICHAGE GOOGLE MAPS
     ==================================================================-->
-
     <?php
         if( !empty($locations) ):
     ?>
@@ -100,7 +101,7 @@
                 if(count($location[1]) === 3):
                     $locationAddress = $location[1]; ?>
                     <!-- si oui, crée un marker -->
-                    <div 
+                    <div
                     class="marker"
                     data-lat="<?php echo $locationAddress['lat']; ?>"
                     data-lng="<?php echo $locationAddress['lng']; ?>"

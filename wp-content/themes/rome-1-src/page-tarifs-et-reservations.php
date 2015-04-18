@@ -1,16 +1,16 @@
 <?php
 
+
 /* FICHIER EN TRAVAUX GRAVE */
 
 /* RESSOURCES
 
-https://codex.wordpress.org/Data_Validation#Output_Sanitization
+https://codex.wordpress.org/Data_Validation
 http://code.tutsplus.com/tutorials/data-sanitization-and-validation-with-wordpress--wp-25536
 https://codex.wordpress.org/Function_Reference/ent2ncr
 https://codex.wordpress.org/Function_Reference/sanitize_text_field
 https://codex.wordpress.org/Class_Reference/wpdb
 https://codex.wordpress.org/Function_Reference/wp_mail
-https://codex.wordpress.org/Data_Validation
 */
 
 // global $wpdb; /* pour utiliser l'objet DB de WP, si on améliore en stockant en DB les réservations */
@@ -21,6 +21,10 @@ include_once('dev-helpers.php');
 /*  récupération des catégories (taxonomies) de visite
     on s'en sert à la vérif du formulaire et dans le HTML du formulaire.
 */
+
+    // récupération du slug de visite à partir de l'URL (utile dan sle cas où on vient d'une visite)
+    $visit_referer = explode('/', wp_get_referer());
+    $visit_referer = ($visit_referer [0] != null ? $visit_referer[count($visit_referer) - 2] : '');
 
     $visites_query = [
         'taxonomy'      => 'visites',
@@ -34,13 +38,18 @@ include_once('dev-helpers.php');
     foreach ($visites as $i => $v) {
         $selected = '';
 
-        // validation du slug de visite reçu en $_POST
+        // traitement du slug de visite reçu en $_POST (ou en $_SERVER['HTTP_REFERER'] via wp_get_referer)
+
+        if($visit_referer == $v->slug)
+            $selected = ' selected';
+
         if($visit_flag == 0 && isset($_POST['visite']))
             if($_POST['visite'] == $v->slug) {
                 $valid['visite'] = $v->name; // nom du circuit choisi envoyé par mail
                 $visit_flag = 1;
                 $selected = ' selected';
             }
+
 
         // définition de la liste de visites
         $option_str .= '<option value="'.$v->slug.'"'.$selected.'>'.$v->name.'</option>';
@@ -97,8 +106,13 @@ include_once('dev-helpers.php');
                 $err_flag = 1;
 
 
-         /* send booking by mail */
+         /* valid form, go! */
         if($err_flag == 0) {
+
+            // AJAX status
+            $to_ajax['status'] = 0;
+
+            // mail stuff
 
             $to = 'meduzen@gmail.com,frits.alex@gmail.com,'.$_POST['mail'];
             $subject = 'Visiter Rome : votre réservation du circuit '.$valid['visite'];
@@ -115,29 +129,44 @@ include_once('dev-helpers.php');
             else
                 echo 'mail <strong>not sent</strong>';
         }
+
+        /* unvalid form, manage errors */
         else {
+
+            // AJAX status
+            $to_ajax['status'] = 'Merci de corriger les erreurs suivantes.';
+
             // keys with errors
             $err_list = array_keys($valid,'0');
 
             // init error messages (NEED IMPROVMENTS)
             $err_msg_full_list = [
-                'visite' => 'erreur visite',
-                'date' => 'erreur date',
-                'heure' => 'erreur heure',
-                'nb_gens' => 'erreur nb_gens',
-                'nom' => 'erreur nom',
-                'mail' => 'Format de mail incorrect.',
-                'tel' => 'erreur tel'
+                'visite' => 'Veuillez choisir une visite',
+                'date' => 'La date doit être comprise entre demain et '.$visit_max.' jours plus tard (en vrai, donner la date + prévoir placeholder "jj/mm/aaaa" pour fallback).',
+                'heure' => 'L’heure doit ressemble à 14:00',
+                'nb_gens' => 'Désolé, on prend pas les groupes de plus de '.$gens_max.' personnes',
+                'nom' => 'Un nom en moins de 2 caractères&nbsp;? Allons…',
+                'mail' => 'Une adresse électronique ressemble à <em>nom@domaine.com</em>.',
+                'tel' => 'Ce numéro de téléphone est moche.'
             ];
 
             // store error msg like $err_msg_liste['mail'] = 'Format de mail incorrect.'
             foreach ($err_list as $e) {
-                $err_msg_list[$e] = $err_msg_full_list[$e];
+                $to_ajax['errors'][$e] = $err_msg_full_list[$e];
             }
-
-            // INSERER ICI: IF AJAX §§!
         }
     }
+
+a($to_ajax);
+
+// AJAX
+
+if(isset($_POST['ajax'])) {
+    if(isset($error))
+        echo json_encode($to_ajax);
+    exit;
+}
+
 ?>
 
 <?php get_header(); ?>

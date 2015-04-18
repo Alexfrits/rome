@@ -7,8 +7,10 @@
 <?php if(have_posts()) : ?>
     <?php
         // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
-        $locations = [];
-        while(have_posts()) : $location=[];?>
+        $locations = []; ?>
+        <a href="<?php echo get_permalink(get_page_by_path('tarifs-et-reservations')) ?>">Réserver</a>
+
+    <?php while(have_posts()) : $location=[];?>
         <?php the_post(); ?>
         <h3><?php the_title(); ?></h3>
         <p><?php the_content(); ?></p>

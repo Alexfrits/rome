@@ -6,7 +6,7 @@
 */
 
 
-// print_r
+// print_r any array or object
     function a($array) {
         echo '<pre>';
         print_r($array);
@@ -18,11 +18,16 @@
         <?php now_in(__FILE__) ?>
 */
     function now_in($file) {
-        $file = explode('/', $file);
-        // $file = explode('\\', $file);
+        if(strpos($file, '/') != false)
+            // non-Windows path uses slash
+            $file = explode('/', $file);
+        else
+            // Windows path uses backslash
+            $file = explode('\\', $file);
+
         $n = count($file);
         echo '<p class="debug-msg">Now in: ';
-        if($n > 1) // display parent directory if it exists
+        if($n > 1) // display 1 parent directory if it exists
             echo $file[$n-2].'/';
         echo '<strong>'.$file[$n-1].'</strong></p>';
     }

@@ -62,7 +62,7 @@ gulp.task('scripts', function() {
  
 // Images
 gulp.task('images', function() {
-  return gulp.src(srcDir + 'img/**/*', { base: srcDir})
+  return gulp.src([srcDir + 'img/**/*', '!' + srcDir + 'img/**/*.ai'], { base: srcDir, ignore: '**/*.ai' })
   .pipe(plugins.cache(plugins.imagemin({ optimizationLevel: 7, progressive: true, interlaced: true })))
   .pipe(plugins.livereload(server))
   .pipe(gulp.dest(buildDir + '/img'));

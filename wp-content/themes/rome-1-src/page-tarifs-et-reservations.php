@@ -28,7 +28,7 @@ include_once('dev-helpers.php');
     ];
 
     $visites = get_categories($visites_query);
-    $option_str = '';
+    $option_str = ''; // compléter ici
     $visit_flag = 0;
 
     foreach ($visites as $i => $v) {
@@ -75,7 +75,7 @@ include_once('dev-helpers.php');
         $valid['heure'] = (preg_match("/([01][0-9]|2[0-3]):[0-5][0-9]/", $_POST['heure']) ? 1 : 0);
 
         // nombre de gens
-        $gens_max = 40;
+        $gens_max = 40; // à intégrer dans l'admin
         $gens = intval($_POST['nb_gens']);
         $valid['nb_gens'] = ($gens > 0 && $gens <= $gens_max ? 1 : 0);
 
@@ -86,7 +86,9 @@ include_once('dev-helpers.php');
         $valid['mail'] = (is_email($_POST['mail']) ? 1 : 0);
 
         // tél : à faire sérieusement
-        $valid['tel'] = (strlen($_POST['nom']) > 2 ? 1 : 0);
+        $valid['tel'] = (strlen($_POST['tel']) > 5 ? 1 : 0);
+
+        a($valid);
 
         // search for unvalid field
         $err_flag = 0;

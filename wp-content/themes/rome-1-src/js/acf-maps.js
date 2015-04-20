@@ -1,13 +1,17 @@
 
-/*  FONCTION ACF (modifiée)
+/*===================================================================
+  FONCTION ACF (modifiée)
 ===================================================================*/
 
 (function($) {
     // var qui va contenir l'infowindow ouverte
   var openWindow = 0;
+  var map = {};
+  var markers = [];
 
-/*
-*  render_map
+
+/*  RENDER MAP
+=====================================================================
 *
 *  This function will render a Google Map onto the selected jQuery element
 *
@@ -39,7 +43,7 @@ function render_map( $el ) {
 
   };
 
-  // create map           
+  // create map
   var map = new google.maps.Map( $el[0], args);
 
   // add a markers reference
@@ -48,17 +52,17 @@ function render_map( $el ) {
   // add markers
   $markers.each(function(){
 
-      add_marker( $(this), map );
+    add_marker( $(this), map );
 
   });
 
   // center map
   center_map( map );
-
+  return map;
 }
 
-/*
-*  add_marker
+/*  ADD MARKER
+=====================================================================
 *
 *  This function will add a marker to the selected Google Map
 *
@@ -77,12 +81,17 @@ function add_marker( $marker, map ) {
   var latlng = new google.maps.LatLng( $marker.attr('data-lat'), $marker.attr('data-lng') );
 
   // définit si le marker a une icone custom
-  var image = {
-    url: $marker.attr('data-img'),
-    size: new google.maps.Size(230, 300),
-    origin: new google.maps.Point(0,0),
-    anchor: new google.maps.Point(11, 15),
-  };
+  var image = {};
+  if ('data-img') {
+    image = {
+      url: $marker.attr('data-img'),
+      size: new google.maps.Size(23, 30),
+      origin: new google.maps.Point(0,0),
+      anchor: new google.maps.Point(11, 15),
+    };
+  } else {
+    image = null;
+  }
 
   // create marker
   var marker = new google.maps.Marker({
@@ -93,6 +102,7 @@ function add_marker( $marker, map ) {
 
   // add to array
   map.markers.push( marker );
+  markers = map.markers;
 
   // if marker contains HTML, add it to an infoWindow
   if( $marker.html() )
@@ -122,8 +132,9 @@ function add_marker( $marker, map ) {
   }
 }
 
-/*
-*  center_map
+
+/*  CENTER MAP
+=====================================================================
 *
 *  This function will center the map, showing all markers attached to this map
 *
@@ -166,14 +177,14 @@ function center_map( map ) {
 /*  affiche/cache les markers de la catégorie correspondante
 ===================================================================*/
 
-// // Sets the map on all markers in the array.
-// function setAllMap(map) {
-//   for (var i = 0; i < markers.length; i++) {
-//     markers[i].setMap(map);
-//   }
-// }
+// Sets the map on all markers in the array.
+function setAllMap(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
 
-// // Removes the markers from the map, but keeps them in the array.
+// Removes the markers from the map, but keeps them in the array.
 // function clearMarkers() {
 //   setAllMap(null);
 // }
@@ -184,24 +195,30 @@ function center_map( map ) {
 // }
 
 function gmccInit() {
+  // Récupère l'élément de classe gmcc (google maps custom controls)
   $gmcc = $('.gmcc');
+
   $gmcc.find('a').on('click', function (e) {
+
     e.preventDefault();
     $filterCat = $(this).attr('data-cat');
+
+    // Boucle sur tous les markers (objets jQuery)
     $markers.each(function(i) {
-      // $(this).setMap(null);
       $markerCat = $(this).attr('data-cat');
+      // vérifie la catégorie des markers par rapport à celle du bouton cliqué
       if ($markerCat !== $filterCat) {
-        console.log($markers[i]);
-        // $(this).setMap(map);
+        // effacer tous les repères qui ne sont pas de la catégorie cliquée
+          console.log(this);
+          console.log(markers[i]);
+          setAllMap(null);
       }
     });
   });
 }
 
-
-/*
-*  document ready
+/*  DOCUMENT READY
+=====================================================================
 *
 *  This function will render each map when the document is ready (page has loaded)
 *
@@ -215,14 +232,14 @@ function gmccInit() {
 
 $(document).ready(function(){
 
+
   $('.acf-map').each(function(){
 
-    render_map( $(this) );
+    gMap = render_map($(this));
 
   });
-
   gmccInit();
-  // console.log($markers);
+
 });
 
 

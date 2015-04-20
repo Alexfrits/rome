@@ -1,5 +1,5 @@
 
-/*  FONCTION ACF
+/*  FONCTION ACF (modifiée)
 ===================================================================*/
 
 (function($) {
@@ -22,13 +22,21 @@
 function render_map( $el ) {
 
   // var
-  var $markers = $el.find('.marker');
+  $markers = $el.find('.marker');
 
   // vars
   var args = {
     zoom    : 16,
     center    : new google.maps.LatLng(0, 0),
-    mapTypeId : google.maps.MapTypeId.ROADMAP
+    mapTypeId : google.maps.MapTypeId.ROADMAP,
+    panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    overviewMapControl: true,
+    // disableDefaultUI: true
+
   };
 
   // create map           
@@ -68,10 +76,19 @@ function add_marker( $marker, map ) {
   // var
   var latlng = new google.maps.LatLng( $marker.attr('data-lat'), $marker.attr('data-lng') );
 
+  // définit si le marker a une icone custom
+  var image = {
+    url: $marker.attr('data-img'),
+    size: new google.maps.Size(230, 300),
+    origin: new google.maps.Point(0,0),
+    anchor: new google.maps.Point(11, 15),
+  };
+
   // create marker
   var marker = new google.maps.Marker({
     position  : latlng,
-    map     : map
+    map       : map,
+    icon      : image
   });
 
   // add to array
@@ -144,8 +161,44 @@ function center_map( map ) {
     // fit to bounds
     map.fitBounds( bounds );
   }
-
 }
+
+/*  affiche/cache les markers de la catégorie correspondante
+===================================================================*/
+
+// // Sets the map on all markers in the array.
+// function setAllMap(map) {
+//   for (var i = 0; i < markers.length; i++) {
+//     markers[i].setMap(map);
+//   }
+// }
+
+// // Removes the markers from the map, but keeps them in the array.
+// function clearMarkers() {
+//   setAllMap(null);
+// }
+
+// // Shows any markers currently in the array.
+// function showMarkers() {
+//   setAllMap(map);
+// }
+
+function gmccInit() {
+  $gmcc = $('.gmcc');
+  $gmcc.find('a').on('click', function (e) {
+    e.preventDefault();
+    $filterCat = $(this).attr('data-cat');
+    $markers.each(function(i) {
+      // $(this).setMap(null);
+      $markerCat = $(this).attr('data-cat');
+      if ($markerCat !== $filterCat) {
+        console.log($markers[i]);
+        // $(this).setMap(map);
+      }
+    });
+  });
+}
+
 
 /*
 *  document ready
@@ -168,6 +221,9 @@ $(document).ready(function(){
 
   });
 
+  gmccInit();
+  // console.log($markers);
 });
+
 
 })(jQuery);

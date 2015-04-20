@@ -10,7 +10,7 @@
 <body>
 <div id="wrapper">
 <header>
-	<h1><a href="<?php echo home_url();?>">Visiter Rome</a></h1>
+	<h1>Visiter Rome</h1>
 	<nav>
     	<ul>
 			<li><a href="<?php echo home_url(); ?>">Accueil</a> </li>

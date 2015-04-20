@@ -28,7 +28,7 @@ include_once('dev-helpers.php');
     ];
 
     $visites = get_categories($visites_query);
-    $option_str = ''; // compléter ici
+    $option_str = '<option value=""></option>';
     $visit_flag = 0;
 
     foreach ($visites as $i => $v) {
@@ -146,7 +146,7 @@ else
 
 <h1 style="color: #770000;">Note : penser au mode de paiement (ou bien osef).</h1>
 
-<form action="" method="post">
+<form id="reservation" action="" method="post">
 
     <!-- choix de visite et date -->
     <fieldset class="fset--visite">
@@ -160,7 +160,7 @@ else
                     required>
         </label>
         <label for="heure">Heure souhaitée
-            <input  id="heure" name="heure" type="time"
+            <input  id="heure" name="heure" type="time" step="900"
                     value="<?php echo (isset($_POST['heure']) ? $_POST['heure'] : ''); ?>"
                     required>
         </label>
@@ -169,13 +169,7 @@ else
     <!-- nb de participants -->
     <fieldset class="fset--participants">
         <legend>Nombre de participants</legend>
-        (Bon, faut se fixer.)
-        <label for="nb_gens">Combien de personnes participeront à la visite&nbsp;?
-            <input  id="nb_gens" name="nb_gens" type="range" placeholder=""
-                    value="<?php echo (isset($_POST['nb_gens']) ? $_POST['nb_gens'] : ''); ?>"
-                    min="1" max="40" step="1" value="5" required>
-        </label>
-        <label for="nb_gens">Combien de personnes participeront à la visite&nbsp;?
+        <label for="nb_gens">Nombre de participants
             <input  id="nb_gens" name="nb_gens" type="number" placeholder=""
                     value="<?php echo (isset($_POST['nb_gens']) ? $_POST['nb_gens'] : ''); ?>"
                     min="1" max="40" step="1" value="5" required>

@@ -164,11 +164,6 @@ else
                     value="<?php echo (isset($_POST['heure']) ? $_POST['heure'] : ''); ?>"
                     required>
         </label>
-    </fieldset>
-
-    <!-- nb de participants -->
-    <fieldset class="fset--participants">
-        <legend>Nombre de participants</legend>
         <label for="nb_gens">Nombre de participants
             <input  id="nb_gens" name="nb_gens" type="number" placeholder=""
                     value="<?php echo (isset($_POST['nb_gens']) ? $_POST['nb_gens'] : ''); ?>"
@@ -197,11 +192,6 @@ else
                     value="<?php echo (isset($_POST['tel']) ? $_POST['tel'] : ''); ?>"
                     placeholder="(+32) (2) 123 45 67" required>
         </label>
-    </fieldset>
-
-    <!-- newsletter -->
-    <fieldset class="fset--checkbox">
-        <legend>Lettre d’information</legend>
         <label for="newsletter">S’inscrire à la lettre d’information.
             <input  id="newsletter" name="newsletter"
                     type="checkbox" <?php echo $newsletter_box; ?>>

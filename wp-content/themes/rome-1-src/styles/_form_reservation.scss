@@ -1,36 +1,29 @@
 #reservation {
 
     fieldset {
+        position: relative;
+        clear: both;
         margin: 60px auto 0;
-        // width: 320px;
-        padding: 0;
+        padding: 3em 0 1em;
         border: none;
-        // border: 1px solid rgba(#fff, .2); // delete me after testing
 
-        &.fset--visite,
-        &.fset--contact {
-
-            legend {
-                display: block;
-                font-size: 3rem;
-            }
+        legend {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-family: 'yanone_kaffeesatzregular', Arial;
+            font-size: 3rem;
+            color: #663;
         }
 
-        &.fset--checkbox {
-
-            input {
-                float: right;
-                display: inline;
-                width: auto;
-                height: auto;
-
-                &::before {
-                    content: none;
-                }
-            }
+        @media screen and (min-width: 1111px){
+            float: left;
+            clear: none;
+            width: auto;
+            max-width: calc(50% - 40px);
+            margin: 0 20px;
         }
-
-
     }
 
     legend {
@@ -41,43 +34,94 @@
     label {
         position: relative;
         display: block;
+        clear: both;
         width: 100%;
         margin-top: 40px;
         text-transform: uppercase;
 
-        &[for="date"],
-        &[for="heure"], {
-            float: left;
-            margin: 32px 0;
+        @media screen and (min-width: 450px) {
+            height: 120px;
 
+            select,
             input {
                 position: absolute;
                 top: 3em;
                 font-size: 16px;
             }
+        }
+
+        &[for="date"],
+        &[for="heure"] {
+
+            @media screen and (min-width: 450px) {
+                clear: none;
+                margin: 32px 0;
+            }
+
+            @media screen and (min-width: 630px) {            float: left;
+                margin-right: 16px;
+            }
 
         }
 
         &[for="date"] {
-            margin-right: 8px;
-            min-width: 170px;
-            max-width: calc(50% - 8px);
+            width: 160px;
+
+            @media screen and (min-width: 450px) {            float: left;
+            }
         }
 
         &[for="heure"] {
-            min-width: 100px;
-            max-width: calc(100% - 170px - 8px);
+            width: 100px;
+
+            @media screen and (min-width: 450px) {            float: right;
+            }
+
+            @media screen and (min-width: 630px) {            float: left;
+            }
         }
 
-        // &[for="nb_gens"] {
-    
-        //     input {
-        //         font-size: 16px;
-        //     }
-        // }
+        &[for="nb_gens"] {
 
+            input {
+                max-width: 200px;
+                height: 60px;
+            }
 
+            @media screen and (min-width: 630px) {
+                float: left;
+                clear: none;
+                width: 120px;
+                margin: 32px 0;
+                height: 120px;
 
+                input {
+                    position: absolute;
+                    top: 3em;
+                    font-size: 16px;
+                }
+            }
+
+            @media screen and (min-width: 1111px) {
+                margin: 10px 0;
+            }
+        }
+
+        &[for="newsletter"] {
+            height: 60px;
+            clear: none;
+
+            [type="checkbox"] {
+                float: left;
+                display: inline;
+                width: auto;
+                height: auto;
+
+                &::before {
+                    content: none;
+                }
+            }
+        }
     }
 
     select,
@@ -90,7 +134,6 @@
         border: 2px solid #fff;
         padding: 1em .125em;
         text-align: center;
-        height: 3em;
         overflow: visible;
 
         &:hover,
@@ -99,15 +142,41 @@
         }
     }
 
+    select {
+        height: 3em;
+    }
+
     button {
+        display: block;
+        clear: both;
         margin: 32px 0;
         padding: 1em;
         border: none;
+        outline: none;
         background: #c33;
         color: #fff;
         text-transform: uppercase;
         line-height: 2.25;
+
+        &:hover,
+        &:focus {
+            background: darken(#c33,5%);
+        }
+
+        &:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
+        }
+
+        @media screen and (min-width: 111px) {
+            margin: 32px auto;
+        }
+
+
     }
 
-
+    .err_msg {
+        color: #c33;
+    }
 }

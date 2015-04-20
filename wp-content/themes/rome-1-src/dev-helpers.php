@@ -18,7 +18,7 @@
         <?php now_in(__FILE__) ?>
 */
     function now_in($file) {
-        if(strpos($file, '/') != false)
+        if(strpos($file, '/') !== '0')
             // non-Windows path uses slash
             $file = explode('/', $file);
         else

@@ -28,7 +28,7 @@ include_once('dev-helpers.php');
     ];
 
     $visites = get_categories($visites_query);
-    $option_str = ''; // compléter ici
+    $option_str = '<option value=""></option>';
     $visit_flag = 0;
 
     foreach ($visites as $i => $v) {
@@ -115,8 +115,28 @@ include_once('dev-helpers.php');
             else
                 echo 'mail <strong>not sent</strong>';
         }
-        else
-            $gerer_les_erreurs = 'va falloir les gérer, ouais…';
+        else {
+            // keys with errors
+            $err_list = array_keys($valid,'0');
+
+            // init error messages (NEED IMPROVMENTS)
+            $err_msg_full_list = [
+                'visite' => 'erreur visite',
+                'date' => 'erreur date',
+                'heure' => 'erreur heure',
+                'nb_gens' => 'erreur nb_gens',
+                'nom' => 'erreur nom',
+                'mail' => 'Format de mail incorrect.',
+                'tel' => 'erreur tel'
+            ];
+
+            // store error msg like $err_msg_liste['mail'] = 'Format de mail incorrect.'
+            foreach ($err_list as $e) {
+                $err_msg_list[$e] = $err_msg_full_list[$e];
+            }
+
+            // INSERER ICI: IF AJAX §§!
+        }
     }
 ?>
 
@@ -146,36 +166,30 @@ else
 
 <h1 style="color: #770000;">Note : penser au mode de paiement (ou bien osef).</h1>
 
-<form action="" method="post">
+<form id="reservation" action="" method="post">
 
     <!-- choix de visite et date -->
     <fieldset class="fset--visite">
         <legend>La visite</legend>
         <label for="visite">Choix de la visite
+            <?php echo (isset($err_msg_list['visite']) ? '<p class="err-msg">'.$err_msg_list['visite'].'</p>' : '') ?>
+            <p><?php echo '';  ?></p>
             <select id="visite" name="visite" id="visite" required><?php echo $option_str; ?></select>
         </label>
         <label for="date">Date
+            <?php echo (isset($err_msg_list['date']) ? '<p class="err-msg">'.$err_msg_list['date'].'</p>' : '') ?>
             <input  id="date" name="date" type="date"
                     value="<?php echo (isset($_POST['date']) ? $_POST['date'] : ''); ?>"
                     required>
         </label>
         <label for="heure">Heure souhaitée
-            <input  id="heure" name="heure" type="time"
+            <?php echo (isset($err_msg_list['heure']) ? '<p class="err-msg">'.$err_msg_list['heure'].'</p>' : '') ?>
+            <input  id="heure" name="heure" type="time" step="900"
                     value="<?php echo (isset($_POST['heure']) ? $_POST['heure'] : ''); ?>"
                     required>
         </label>
-    </fieldset>
-
-    <!-- nb de participants -->
-    <fieldset class="fset--participants">
-        <legend>Nombre de participants</legend>
-        (Bon, faut se fixer.)
-        <label for="nb_gens">Combien de personnes participeront à la visite&nbsp;?
-            <input  id="nb_gens" name="nb_gens" type="range" placeholder=""
-                    value="<?php echo (isset($_POST['nb_gens']) ? $_POST['nb_gens'] : ''); ?>"
-                    min="1" max="40" step="1" value="5" required>
-        </label>
-        <label for="nb_gens">Combien de personnes participeront à la visite&nbsp;?
+        <label for="nb_gens">Nombre de participants
+            <?php echo (isset($err_msg_list['nb_gens']) ? '<p class="err-msg">'.$err_msg_list['nb_gens'].'</p>' : '') ?>
             <input  id="nb_gens" name="nb_gens" type="number" placeholder=""
                     value="<?php echo (isset($_POST['nb_gens']) ? $_POST['nb_gens'] : ''); ?>"
                     min="1" max="40" step="1" value="5" required>
@@ -187,27 +201,25 @@ else
         <legend>Vos coordonnées</legend>
 
         <label for="nom">Vos nom et prénom, ou le nom de votre association, école…
+            <?php echo (isset($err_msg_list['nom']) ? '<p class="err-msg">'.$err_msg_list['nom'].'</p>' : '') ?>
             <input  id="nom" name="nom" type="text"
                     value="<?php echo (isset($_POST['nom']) ? $_POST['nom'] : ''); ?>"
                     placeholder="Jules César" required>
         </label>
 
         <label for="mail">Mail
+            <?php echo (isset($err_msg_list['mail']) ? '<p class="err-msg">'.$err_msg_list['mail'].'</p>' : '') ?>
             <input  id="mail" name="mail" type="email"
                     value="<?php echo (isset($_POST['mail']) ? $_POST['mail'] : ''); ?>"
                     placeholder="venividi@v.ici" required>
         </label>
 
         <label for="tel">Tél.
+            <?php echo (isset($err_msg_list['tel']) ? '<p class="err-msg">'.$err_msg_list['tel'].'</p>' : '') ?>
             <input  id="tel" name="tel" type="tel"
                     value="<?php echo (isset($_POST['tel']) ? $_POST['tel'] : ''); ?>"
                     placeholder="(+32) (2) 123 45 67" required>
         </label>
-    </fieldset>
-
-    <!-- newsletter -->
-    <fieldset class="fset--checkbox">
-        <legend>Lettre d’information</legend>
         <label for="newsletter">S’inscrire à la lettre d’information.
             <input  id="newsletter" name="newsletter"
                     type="checkbox" <?php echo $newsletter_box; ?>>

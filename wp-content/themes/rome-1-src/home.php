@@ -5,7 +5,7 @@
 <p><?php _e( 'test', 'rome-1' ); ?></p>
 <div class="google-map" id="map-canvas"></div>
 
-<!-- <main>
+<main>
   <h1>La ville à voir ... et à revoir !</h1>
   <p><strong>Rome, la ville éternelle ...Qui n'a pas rêvé de la visiter ?</strong><br>
     Mais, comment faire pour tout visiter, tout savoir ? il y a tant de choses à découvrir, à connaître, tant de siècles à parcourir ... il est impossible de tout savoir des artistes, des grands personnages et des moments historiques qui ont forgés cette ville légendaire.</p>
@@ -29,7 +29,7 @@
   </ul>
   <p>Vous trouverez aussi sur ce site, une mine de renseignements utiles et de liens vers des sites intéressants .</p>
   <p>Bonne visite...</p>
-</main> -->
+</main>
 
 
 

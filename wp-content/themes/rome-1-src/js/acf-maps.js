@@ -30,18 +30,11 @@ function render_map( $el ) {
 
   // vars
   var args = {
-    zoom    : 16,
+    zoom      : 16,
     center    : new google.maps.LatLng(0, 0),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
-    panControl: true,
-    zoomControl: true,
-    mapTypeControl: true,
-    scaleControl: true,
-    streetViewControl: true,
-    overviewMapControl: true,
-    // disableDefaultUI: true
-
   };
+
 
   // create map
   var map = new google.maps.Map( $el[0], args);
@@ -184,37 +177,44 @@ function setAllMap(map) {
   }
 }
 
-// Removes the markers from the map, but keeps them in the array.
-// function clearMarkers() {
-//   setAllMap(null);
-// }
-
-// // Shows any markers currently in the array.
-// function showMarkers() {
-//   setAllMap(map);
-// }
-
 function gmccInit() {
   // Récupère l'élément de classe gmcc (google maps custom controls)
   $gmcc = $('.gmcc');
+  $gmccLink = $('li.gmcc__filter');
+
+  var checkboxContent = '<label><span>';
+
+  $gmccLink.each(function (i) {
+    checkboxContent += $(this).children('a').html();
+    checkboxContent += '</span><input type="checkbox"></label>';
+    $(this).replaceWith(checkboxContent);
+  });
+
+
+  // var checkbox = $gmcc.find('a').replaceWith(checkboxContent);
+
+  gMap.controls[google.maps.ControlPosition.TOP_LEFT].push(
+  document.getElementById('gmcc_wrapper'));
 
   $gmcc.find('a').on('click', function (e) {
 
-    e.preventDefault();
-    $filterCat = $(this).attr('data-cat');
+   e.preventDefault();
+   $filterCat = $(this).attr('data-cat');
 
-    // Boucle sur tous les markers (objets jQuery)
-    $markers.each(function(i) {
-      $markerCat = $(this).attr('data-cat');
-      // vérifie la catégorie des markers par rapport à celle du bouton cliqué
-      if ($markerCat !== $filterCat) {
-        // effacer tous les repères qui ne sont pas de la catégorie cliquée
-          console.log(this);
-          console.log(markers[i]);
-          setAllMap(null);
-      }
-    });
-  });
+     // EFFACER tous les repères qui ne sont pas de la catégorie cliquée
+     setAllMap(null);
+
+   // Boucle sur tous les markers (objets jQuery)
+   $markers.each(function() {
+     $markerCat = $(this).attr('data-cat');
+
+     // vérifie la catégorie des markers par rapport à celle du bouton cliqué
+     // si MÊME CATEGORIE, alors on affiche le marqueur
+     if ($markerCat == $filterCat) {
+         add_marker($(this), gMap);
+     }
+   });
+ });
 }
 
 /*  DOCUMENT READY

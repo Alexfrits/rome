@@ -3,7 +3,7 @@
 
 <?php echo home_url(); ?>
 
-
+<main>
 <?php if(have_posts()) : ?>
     <?php
         // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
@@ -31,8 +31,8 @@
         ?>
     <?php endwhile; ?>
 <?php endif; ?>
-    
-    
+
+
 <?php
     // Vol sans vergogne du code de la sidebar par Mehdi
 
@@ -75,7 +75,7 @@ $visites = get_categories($args); ?>
     </div>
 <?php endif; ?>
 
-
+</main>
 
 
 <?php get_sidebar(); ?>

@@ -1,33 +1,45 @@
 <aside>
-    <h2>Nos visites</h2>
-    <ul>
+    <?php
+    
+    /*
+    *   **TODO**
+    *   transformer ce bout de code 
+    *   en fonction réutilisable ailleurs
+    */
 
-<?php
+    // récupération des catégories (taxonomies) custom (paramètre '_builtin' => false)
+    $args = [
+        'public' => true,
+        '_builtin' => false
+    ];
+    $output = 'name';
+    $tax = get_taxonomies($args, $output);
 
-// récupération des catégories (taxonomies) de visite
+    foreach ($tax as $t => $v) {
+        // pour toutes les taxo custom, sauf category_media (qui est celle du MCM)
+        if ($t !== 'category_media') {
+            // affiche le titre de la taxo
+            echo '<h2>' . $v->labels->name . '</h2>';
+            // crée la liste des items de la catégorie
+            echo '<ul>';
+            $args = [
+                'taxonomy'      => $v->name,
+                'hide_empty'    => 1
+            ];
+            $cat = get_categories($args);
 
-$args = [
-    'taxonomy'      => 'visites',
-    'hide_empty'    => 1
-];
-$visites = get_categories($args); ?>
-
-<?php foreach ($visites as $i => $v): ?>
-    <li><a href=<?php echo '"'.home_url().'/visites/'.$v->slug.'">'.$v->name; ?></a></li>
-<?php endforeach; ?>
-
-    </ul>
-    <h2>Infos Pratiques</h2>
-    <ul>
-        <li><a href="pages/musee.html">Musées</a></li>
-        <li><a href="#">Transports</a></li>
-        <li><a href="#">Shopping</a></li>
-        <li><a href="#">Manger</a></li>
-        <li><a href="#">Dormir</a></li>
-    </ul>
+             foreach ($cat as $i => $u) {
+                echo '<li><a href="' . home_url() . '/' . $v->name . '/' . $u->slug . '">' . $u->name . '</a></li>';
+             };  
+            echo '</ul>';
+        }
+    }
+    ?>
+    <!-- Liens utiles en dur car on ne l'a toujours pas intégré dans l'admin-->
     <h2>Liens Utiles</h2>
     <ul>
         <li><a href="#"> sites officiels</a></li>
         <li><a href="#">tourisme</a></li>
     </ul>
+
 </aside>

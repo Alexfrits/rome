@@ -63,56 +63,66 @@
     wp_reset_postdata();
 ?>
 
+<!--  Contrôles customs et filtres pour la map
+=====================================================================
 
-<div class="gmcc-wrapper">
-    <!--  Contrôles customs et filtres pour la map
-    ==================================================================-->
-    <!--
-        GMCC = Google Maps Custom Controls
-        cette classe est utilisée par le JS dans acf-maps.js
-    -->
-    <div id="gmcc_wrapper">
-        <ul class="gmcc">
-            <?php
-            $args = [
-                'taxonomy'      => 'infospratiques',
-                'hide_empty'    => 1
-            ];
-            $visites = get_categories($args); ?>
+    GMCC = Google Maps Custom Controls
+    cette classe est utilisée par le JS dans acf-maps.js
+-->
+<div class="gmcc__wrapper" id="gmcc_wrapper">
+    <ul class="gmcc">
+        <?php
+        $args = [
+            'taxonomy'      => 'infospratiques',
+            'hide_empty'    => 1
+        ];
+        $visites = get_categories($args); ?>
 
-            <?php foreach ($visites as $i => $v): ?>
-                <li class="gmcc__filter"><a data-cat="<?php echo $v->slug; ?>" href=<?php echo '"'.home_url().'/infospratiques/'.$v->slug.'">'.$v->name; ?></a></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-
-    <!--  AFFICHAGE GOOGLE MAPS
-    ==================================================================-->
-    <?php
-        if( !empty($locations) ):
-    ?>
-        <div class="acf-map">
-        <!-- Pour chaque élément, crée un marker -->
-        <?php foreach ($locations as $location): ?>
-            <?php
-                // vérifie si le lieux a des infos de coordonnées
-                if(count($location['gmap']) === 3): ?>
-                    <!-- si oui, crée un marker -->
-                    <div
-                    class="marker"
-                    data-lat="<?php echo $location['gmap']['lat']; ?>"
-                    data-lng="<?php echo $location['gmap']['lng']; ?>"
-                    data-cat="<?php echo $location['cat']; ?>"
-                    data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?>"
+        <?php foreach ($visites as $i => $v): ?>
+            <li class="gmcc__filter">
+                <a
+                data-cat="<?php echo $v->slug; ?>"
+                href="<?php echo home_url() . '/infospratiques/' . $v->slug; ?>"
+                >
+                    <?php echo $v->name; ?>
+                <object width="23" height="30" type="image/svg+xml" data="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $v->slug . '.svg'; ?>">
+                    <img
+                    src="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $v->slug . '.png'; ?>"
+                    alt="<?php echo 'picto ' . $v->slug; ?>"
                     >
-                        <h3><?php echo $locationTitle; ?></h3>
-                        <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?></div>
-                    </div>
-                <?php endif; ?>
+                </object>
+                </a>
+            </li>
         <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</div><!-- end gmcc-wrapper-->
+    </ul>
+</div>
+
+<!--  AFFICHAGE GOOGLE MAPS
+==================================================================-->
+<?php
+    if( !empty($locations) ):
+?>
+    <div class="acf-map">
+    <!-- Pour chaque élément, crée un marker -->
+    <?php foreach ($locations as $location): ?>
+        <?php
+            // vérifie si le lieux a des infos de coordonnées
+            if(count($location['gmap']) === 3): ?>
+                <!-- si oui, crée un marker -->
+                <div
+                class="marker"
+                data-lat="<?php echo $location['gmap']['lat']; ?>"
+                data-lng="<?php echo $location['gmap']['lng']; ?>"
+                data-cat="<?php echo $location['cat']; ?>"
+                data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?>"
+                >
+                    <h3><?php echo $locationTitle; ?></h3>
+                    <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?></div>
+                </div>
+            <?php endif; ?>
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
 
 </main>

@@ -2,12 +2,12 @@
 
     var $reservation = $('#reservation');
 
-            console.log($reservation);
+            // console.log($reservation);
 
 
     // AJAX THINGS
         $reservation.on('submit', function(e) {
-            console.log('io');
+            // console.log('io');
             e.preventDefault();
             checkSave = $.post($(this).attr('action'),
                 $(this).serialize() + '&ajax=1',

@@ -39,15 +39,15 @@
                 $the_query->the_post();
 
                 // stocke le titre du marker
-                $location[] = get_the_title();
+                $location['title'] = get_the_title();
 
                 // stocke l'addresse/lat/lng
-                $location[] = get_field('google_map');
+                $location['gmap'] = get_field('google_map');
 
                 // // stockage de la catégorie de 'infospratiques'
                 $infosTerms = get_the_terms(get_the_id(), 'infospratiques');
                 foreach ($infosTerms as $t => $v):
-                    $location[] = $v->slug;
+                    $location['cat'] = $v->slug;
                 endforeach;
 
                 // si l'array a des infos, on les stocke dans $locations
@@ -56,9 +56,9 @@
                 endif;
             endwhile; ?>
         </ul>
-        <?php // a($locations); ?>
+        <?php a($locations); ?>
     <?php else: ?>
-        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <p><?php echo 'Aucun post correspondant à votre requête'; ?></p>
     <?php endif;
     wp_reset_postdata();
 ?>
@@ -95,21 +95,18 @@
         <!-- Pour chaque élément, crée un marker -->
         <?php foreach ($locations as $location): ?>
             <?php
-                $locationTitle = $location[0];
-                $locationCategory = $location[2];
                 // vérifie si le lieux a des infos de coordonnées
-                if(count($location[1]) === 3):
-                    $locationAddress = $location[1]; ?>
+                if(count($location['gmap']) === 3): ?>
                     <!-- si oui, crée un marker -->
                     <div
                     class="marker"
-                    data-lat="<?php echo $locationAddress['lat']; ?>"
-                    data-lng="<?php echo $locationAddress['lng']; ?>"
-                    data-cat="<?php echo $locationCategory; ?>"
-                    data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $locationCategory . '.png'; ?>"
+                    data-lat="<?php echo $location['gmap']['lat']; ?>"
+                    data-lng="<?php echo $location['gmap']['lng']; ?>"
+                    data-cat="<?php echo $location['cat']; ?>"
+                    data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?>"
                     >
                         <h3><?php echo $locationTitle; ?></h3>
-                        <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $locationCategory . '.png'; ?></div>
+                        <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?></div>
                     </div>
                 <?php endif; ?>
         <?php endforeach; ?>

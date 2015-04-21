@@ -138,6 +138,7 @@ include_once('dev-helpers.php');
 
             // keys with errors
             $err_list = array_keys($valid,'0');
+            a($err_list);
 
             // init error messages (NEED IMPROVMENTS)
             $err_msg_full_list = [

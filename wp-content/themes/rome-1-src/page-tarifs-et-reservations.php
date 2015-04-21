@@ -136,6 +136,7 @@ include_once('dev-helpers.php');
 
             // keys with errors
             $err_list = array_keys($valid,'0');
+            a($err_list);
 
             // init error messages (NEED IMPROVMENTS)
             $err_msg_list = [
@@ -191,12 +192,14 @@ else { ?>
 
     <h1 style="color: #770000;">Note : penser au mode de paiement (ou bien osef).</h1>
 
-    <?php // mail msg ?>
-    <?php echo ($to_ajax['mail'] == 1
-            ? '<p class="form-ok"><strong>Votre demande de réservation a été enregistrée et vous est envoyée par mail. Nous y répondrons dès que possible.</strong></p>'
-            : '<p class="form-no"><strong>La Poste est en grève, votre réservation n’a pu aboutir. Décrochez donc votre téléphone pour nous appeler. :(</strong></p>'); ?>
+    <?php // mail msg
 
-    <form id="reservation" action="" method="post">
+        if(isset($to_ajax['mail']))
+            echo ($to_ajax['mail'] == 1
+                ? '<p class="form-ok"><strong>Votre demande de réservation a été enregistrée et vous est envoyée par mail. Nous y répondrons dès que possible.</strong></p>'
+                : '<p class="form-no"><strong>La Poste est en grève, votre réservation n’a pu aboutir. Décrochez donc votre téléphone pour nous appeler. :(</strong></p>'); ?>
+
+    <form id="reservation" method="post">
 
         <!-- choix de visite et date -->
         <fieldset class="fset--visite">
@@ -268,7 +271,7 @@ else { ?>
             </label>
         </fieldset>
 
-        <button>Envoyer la réservation</button>
+        <button class="button">Envoyer la réservation</button>
     </form>
 
     <?php if($p_flag === 1): ?>

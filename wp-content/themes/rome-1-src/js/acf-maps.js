@@ -5,8 +5,6 @@
 
 (function($) {
 
-
-
 /*  RENDER MAP
 =====================================================================
 *
@@ -177,22 +175,14 @@ function setAllMap(map) {
 function gmccInit() {
   // Récupère l'élément de classe gmcc (google maps custom controls)
   $gmcc = $('.gmcc');
-  $gmccLink = $('li.gmcc__filter');
 
-  var checkboxContent = '<label><span>';
-
-  $gmccLink.each(function (i) {
-    checkboxContent += $(this).children('a').html();
-    checkboxContent += '</span><input type="checkbox"></label>';
-    $(this).replaceWith(checkboxContent);
-  });
+  // Récup la liste de liens (filtres), les converti en controls et les positionne sur la map
+  gMap.controls[google.maps.ControlPosition.RIGHT_CENTER].push(
+    document.getElementById('gmcc_wrapper')
+  );
 
 
-  // var checkbox = $gmcc.find('a').replaceWith(checkboxContent);
-
-  gMap.controls[google.maps.ControlPosition.TOP_LEFT].push(
-  document.getElementById('gmcc_wrapper'));
-
+  // attribution du click
   $gmcc.find('a').on('click', function (e) {
 
    e.preventDefault();
@@ -229,15 +219,11 @@ function gmccInit() {
 
 $(document).ready(function(){
 
-  
-
   if($('.acf-map').length) {
-
-// var qui va contenir l'infowindow ouverte
-  var openWindow = 0;
-  var map = {};
-  var markers = [];
-
+    // initialisation des var inter-fonctions
+    var openWindow = 0;
+    var map = {};
+    var markers = [];
 
     $('.acf-map').each(function(){
 
@@ -247,6 +233,4 @@ $(document).ready(function(){
     gmccInit();
   }
 });
-
-
 })(jQuery);

@@ -4,11 +4,6 @@
 ===================================================================*/
 
 (function($) {
-<<<<<<< HEAD
-=======
-
-
->>>>>>> f8860c09b7455306c2c4ab012377445601cc4d9d
 
 /*  RENDER MAP
 =====================================================================
@@ -224,7 +219,6 @@ function gmccInit() {
 
 $(document).ready(function(){
 
-<<<<<<< HEAD
   if($('.acf-map').length) {
     // initialisation des var inter-fonctions
     var openWindow = 0;
@@ -233,20 +227,6 @@ $(document).ready(function(){
 
     $('.acf-map').each(function(){
 
-=======
-  
-
-  if($('.acf-map').length) {
-
-// var qui va contenir l'infowindow ouverte
-  var openWindow = 0;
-  var map = {};
-  var markers = [];
-
-
-    $('.acf-map').each(function(){
-
->>>>>>> f8860c09b7455306c2c4ab012377445601cc4d9d
       gMap = render_map($(this));
 
     });

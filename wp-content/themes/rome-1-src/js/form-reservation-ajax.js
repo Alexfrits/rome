@@ -2,12 +2,9 @@
 
     $(document).ready(function(){
 
-<<<<<<< HEAD
             // console.log($reservation);
-=======
         var $reservation = $('#reservation');
         if($reservation.length) {
->>>>>>> f8860c09b7455306c2c4ab012377445601cc4d9d
 
             // AJAX THINGS
                 $reservation.on('submit', function(e) {
@@ -21,7 +18,6 @@
                                 resp = JSON.parse(resp);
                                 console.log (resp);
 
-<<<<<<< HEAD
     // AJAX THINGS
         $reservation.on('submit', function(e) {
             // console.log('io');
@@ -47,7 +43,6 @@
             });
             // console.log(checkSave);
         });
-=======
                                 if(resp.status === 1) {
                                     $reservation.after('<p>Wouhou!</p>');
                                     // complete me
@@ -63,6 +58,5 @@
             console.log('hi');
         }
     });
->>>>>>> f8860c09b7455306c2c4ab012377445601cc4d9d
 
 })(jQuery);

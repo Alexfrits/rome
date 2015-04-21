@@ -116,7 +116,7 @@
                 data-cat="<?php echo $location['cat']; ?>"
                 data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?>"
                 >
-                    <h3><?php echo $locationTitle; ?></h3>
+                    <h3><?php echo $location['title']; ?></h3>
                     <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?></div>
                 </div>
             <?php endif; ?>

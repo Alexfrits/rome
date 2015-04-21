@@ -150,9 +150,12 @@
         height: 3em;
     }
 
-    button {
+    // used for "next" in JS and for <button>
+    .button {
         display: block;
         clear: both;
+        max-width: 14em;
+        text-align: center;
         margin: 32px auto;
         padding: 1em;
         border: none;
@@ -160,6 +163,7 @@
         background: #c33;
         color: #fff;
         text-transform: uppercase;
+        text-decoration: none;
         line-height: 2.25;
 
         &:hover,

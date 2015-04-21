@@ -4,7 +4,7 @@
 ===================================================================*/
 
 (function($) {
-
+var openWindow = 0;
 /*  RENDER MAP
 =====================================================================
 *
@@ -103,6 +103,7 @@ function add_marker( $marker, map ) {
     // show info window when marker is clicked
     google.maps.event.addListener(marker, 'click', function() {
       // si une infowindow est ouverte
+
       if (openWindow !== 0) {
         // on la ferme
         openWindow.close();
@@ -119,7 +120,6 @@ function add_marker( $marker, map ) {
     });
   }
 }
-
 
 /*  CENTER MAP
 =====================================================================
@@ -181,12 +181,12 @@ function gmccInit() {
     document.getElementById('gmcc_wrapper')
   );
 
-
   // attribution du click
   $gmcc.find('a').on('click', function (e) {
 
    e.preventDefault();
    $filterCat = $(this).attr('data-cat');
+   console.log($('.svg-init'));
 
      // EFFACER tous les repères qui ne sont pas de la catégorie cliquée
      setAllMap(null);
@@ -221,7 +221,6 @@ $(document).ready(function(){
 
   if($('.acf-map').length) {
     // initialisation des var inter-fonctions
-    var openWindow = 0;
     var map = {};
     var markers = [];
 

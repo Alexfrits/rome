@@ -13,23 +13,51 @@
 /*  GMCC STYLES
 ===================================================================*/
 
+.svg-init {
+  display: none;
+  visibility: hidden;
+}
+
 .gmcc__wrapper {
-  background-color: #fff;
+  background: #fff;
+
+  .gmcc {
+    background:gold;
+    text-align: center;
+  }
+  .gmcc__filter {
+    list-style-type: none;
+    background: lime;
+
+    .gmcc__label,
+    .gmcc__icon {
+      display: block;
+    }
+
+    .gmcc__label {
+      text-decoration: none;
+    }
+    .gmcc__icon {
+      background:pink;
+      
+    }
+  }
 }
 
-/*  PICTOS
-===================================================================*/
+/*  PICTOS (Classes in SVG document) */
+    .gmcc__picto {
+      fill: orange;
+      cursor: pointer;
+      width: 23px;
+      height: 30px;
+      
+      .background {
+        fill: orange;
+      }
 
-.gmcc__picto {
-
-  // &:hover {
-  //   transform-origin: 50% 50%;
-  //   transform: rotate(360deg);
-  //   transition: .3s transform;
-  // }
-  // &.active {
-  //   .background {
-  //     fill: blue;
-  //   }
-  // }
-}
+      &.active {
+        .background {
+          fill: blue;
+        }
+      }
+    }

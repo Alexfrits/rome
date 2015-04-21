@@ -11,6 +11,26 @@
 
 <?php echo home_url(); ?>
 
+<svg>
+    <defs>
+        <symbol id="g1">
+            <circle r="18" cx="50%" cy="50%"/>
+          <circle cx="291.7" cy="413.8" r="1.8"/>
+        </symbol>
+    </defs>
+</svg>
+
+
+<svg style="background: green" viewBox="23 30" width="230" height="300">
+    <use 
+        xlink:href="#g1"
+    />
+</svg>
+
+<div class="svg-init">
+</div>
+
+
 <main>
 
 <!--  MODIFICATION de la boucle (car on est dans un autre fichier)
@@ -56,7 +76,7 @@
                 endif;
             endwhile; ?>
         </ul>
-        <?php a($locations); ?>
+        <?php //a($locations); ?>
     <?php else: ?>
         <p><?php echo 'Aucun post correspondant à votre requête'; ?></p>
     <?php endif;
@@ -81,16 +101,14 @@
         <?php foreach ($visites as $i => $v): ?>
             <li class="gmcc__filter">
                 <a
+                class="gmcc__label"
                 data-cat="<?php echo $v->slug; ?>"
                 href="<?php echo home_url() . '/infospratiques/' . $v->slug; ?>"
                 >
                     <?php echo $v->name; ?>
-                <object width="23" height="30" type="image/svg+xml" data="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $v->slug . '.svg'; ?>">
-                    <img
-                    src="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $v->slug . '.png'; ?>"
-                    alt="<?php echo 'picto ' . $v->slug; ?>"
-                    >
-                </object>
+                    <svg class="gmcc__picto">
+                        <use xlink:href="#<?php echo 'icon-' . $v->slug; ?>"/> 
+                    </svg>
                 </a>
             </li>
         <?php endforeach; ?>
@@ -123,8 +141,6 @@
     <?php endforeach; ?>
     </div>
 <?php endif; ?>
-
-
 </main>
 
 <?php get_sidebar(); ?>

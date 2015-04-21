@@ -21,8 +21,12 @@
             float: left;
             clear: none;
             width: auto;
-            max-width: calc(50% - 40px);
-            margin: 0 20px;
+            max-width: calc(50% - 50px);
+            margin: 0;
+
+            &.fset--visite {
+                margin-right: 40px;
+            }
         }
     }
 
@@ -149,7 +153,7 @@
     button {
         display: block;
         clear: both;
-        margin: 32px 0;
+        margin: 32px auto;
         padding: 1em;
         border: none;
         outline: none;
@@ -168,15 +172,35 @@
             top: 2px;
             left: 2px;
         }
-
-        @media screen and (min-width: 111px) {
-            margin: 32px auto;
-        }
-
-
     }
 
     .err-msg {
-        color: #c33;
+        padding: .25em;
+        background: #fff;
+        border-left: 4px solid #631daa;
+        color: #631daa;
+        text-transform: none;
+        box-shadow: 3px 3px 3px rgba(#444,.3);
     }
+
+    input.err-field {
+        outline: 2px solid #631daa;
+        color: #631daa;
+    }
+}
+
+.form-ok {
+    margin: 5%;
+    padding: .5em;
+    border: 2px solid #6c0;
+    color: #6c0;
+    background: #fff;
+}
+
+.form-no {
+    margin: 5%;
+    padding: .5em;
+    border: 2px solid #631daa;
+    color: #631daa;
+    background: #fff;
 }

@@ -4,10 +4,7 @@
 ===================================================================*/
 
 (function($) {
-    // var qui va contenir l'infowindow ouverte
-  var openWindow = 0;
-  var map = {};
-  var markers = [];
+
 
 
 /*  RENDER MAP
@@ -232,14 +229,23 @@ function gmccInit() {
 
 $(document).ready(function(){
 
+  
 
-  $('.acf-map').each(function(){
+  if($('.acf-map').length) {
 
-    gMap = render_map($(this));
+// var qui va contenir l'infowindow ouverte
+  var openWindow = 0;
+  var map = {};
+  var markers = [];
 
-  });
-  gmccInit();
 
+    $('.acf-map').each(function(){
+
+      gMap = render_map($(this));
+
+    });
+    gmccInit();
+  }
 });
 
 

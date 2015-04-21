@@ -6,7 +6,6 @@
         var $reservation = $('#reservation');
         if($reservation.length) {
 
-
             var $fset_contact = $reservation.find('.fset--contact'),
                 $fset_visite = $reservation.find('.fset--visite'),
                 $button = $reservation.find('button');
@@ -36,7 +35,6 @@
                             left: '0'
                         })
                         .fadeIn(400, function() {});
-
                 });
             });
 

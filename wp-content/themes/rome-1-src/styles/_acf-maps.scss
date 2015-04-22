@@ -29,35 +29,32 @@
     list-style-type: none;
     background: lime;
 
-    .gmcc__label,
-    .gmcc__icon {
-      display: block;
-    }
-
     .gmcc__label {
       text-decoration: none;
-    }
-    .gmcc__icon {
-      background:pink;
-      
+      clear: both;
     }
   }
 }
 
 /*  PICTOS (Classes in SVG document) */
-    .gmcc__picto {
-      fill: orange;
-      cursor: pointer;
-      width: 23px;
-      height: 30px;
-      
-      .background {
-        fill: orange;
-      }
+.gmcc__marker {
+  .gmcc__marker__picto {
+    fill: orange;
+  }
 
-      &.active {
-        .background {
-          fill: blue;
-        }
-      }
+
+
+  &.active {
+    .gmcc__marker__picto {
+      fill: green;
     }
+  }
+}
+.gmcc__marker__bg {
+  fill: blue;
+}
+.gmcc__marker__wrapper {
+  background:pink;
+  width: 23px;
+  height: 30px;
+}

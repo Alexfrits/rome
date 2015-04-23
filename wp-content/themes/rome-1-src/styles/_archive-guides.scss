@@ -3,13 +3,13 @@
   font-family: "yanone_kaffeesatzregular";
 
   .guides-list {
-    // @extend .guides-index;
+    @extend .guides-index;
 
     @include mq($large) {
-      // display: flex;
-      // flex-direction: columns
-      // flex-wrap: wrap;
-      // justify-content: space-between;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
   }
   .guides-list__item {
@@ -25,7 +25,12 @@
       flex-direction: row;
     }
     @include mq($large) {
-      // flex: 1 2 1;
+      width: calc(50% - 1rem);
+      margin-bottom: 2rem;
+
+      &:nth-child(even){
+        margin-left: 2rem;
+      }
     }
   }
 
@@ -49,6 +54,9 @@
     flex: 2;
     @include mq($med) {
       border-left: 1px solid #9F9F9F;
+    }
+    @include mq($large) {
+      flex: 1;
     }
   }
 

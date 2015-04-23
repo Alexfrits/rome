@@ -1,0 +1,17 @@
+/*  Media Queries Mixins
+===================================================================*/
+
+
+/* BREAKPOINTS */
+
+$small : 25em;
+$med : 50em;
+$large : 70em;
+
+/* MIXIN */
+
+@mixin mq($size){
+  @media screen and (min-width:$size){
+    @content
+  }
+}

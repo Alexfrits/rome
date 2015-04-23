@@ -16,8 +16,6 @@ function redraw (element){
 
 var openWindow = 0;
 
-
-
 /*  RENDER MAP
 =====================================================================
 *
@@ -83,7 +81,7 @@ function add_marker( $marker, map ) {
 
   // définit si le marker a une icone custom
   var image = {};
-  if ('data-img') {
+  if ($marker.attr('data-img')) {
     image = {
       url: $marker.attr('data-img'),
       size: new google.maps.Size(23, 30),
@@ -94,11 +92,12 @@ function add_marker( $marker, map ) {
     image = null;
   }
 
+
   // create marker
   var marker = new google.maps.Marker({
     position  : latlng,
     map       : map,
-    icon      : image
+    // icon      : image
   });
 
   // add custom property to the gMaps marker object

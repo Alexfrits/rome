@@ -1,22 +1,72 @@
 .guides-list__wrapper {
+  box-sizing: border-box;
+  font-family: "yanone_kaffeesatzregular";
 
   .guides-list {
-    @extend .guides-index;
-    display: inline-block;
-    text-align: left;
+    // @extend .guides-index;
 
+    @include mq($large) {
+      // display: flex;
+      // flex-direction: columns
+      // flex-wrap: wrap;
+      // justify-content: space-between;
+    }
   }
   .guides-list__item {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+
+    background:#fff;
+    box-shadow: 0 0 20px 0 #9F9F9F;
+
+    @include mq($med) {
+      flex-direction: row;
+    }
+    @include mq($large) {
+      // flex: 1 2 1;
+    }
+  }
+
+  .guides-list__item__col--left {
+    padding: 2rem;
+    flex: 1;
+    align-items: center;
+    justify-content: space-around;
+
+    display: flex;
+    flex-direction: column;
+
+    @include mq($med) {
+      flex-direction: column-reverse;
+    }
 
   }
-  .guides-list__item__img {
+  .guides-list__item__col--right {
+    @extend .guides-list__item__col--left;
+    flex-direction: column;
+    flex: 2;
+    @include mq($med) {
+      border-left: 1px solid #9F9F9F;
+    }
+  }
 
+  .guides-list__item__img {
+    background:#fff;
+
+  }
+  .guides-list__item__nom {
+    margin: 1em 0;
+    font-size: 2.4em;
   }
   .guides-list__item__formation {
-
+    font-family: "yanone_kaffeesatzlight";
+    font-size: 1.4em;
   }
   .guides-list__item__ville {
-
+    text-transform: uppercase;
+    font-size: 2.2em;
+    vertical-align: bottom;
   }
-
 }

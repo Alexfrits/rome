@@ -2,6 +2,19 @@
 
     overflow: hidden;
 
+    &.js {
+        max-width: 750px;
+        margin-left: auto;
+        margin-right: auto;
+
+        fieldset {
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            float: none;
+        }
+    }
+
     fieldset {
         position: relative;
         clear: both;
@@ -122,16 +135,18 @@
         &[for="newsletter"] {
             height: 60px;
             clear: none;
+            display: inline-block;
+            position: relative;
+            padding-right: 36px;
 
             [type="checkbox"] {
-                float: left;
+                position: absolute;
                 display: inline;
-                width: auto;
-                height: auto;
-
-                &::before {
-                    content: none;
-                }
+                width: 24px;
+                height: 24px;
+                top: 0;
+                right: 0;
+                margin-top: 0;
             }
         }
     }
@@ -148,9 +163,12 @@
         text-align: center;
         overflow: visible;
 
-        &:hover,
-        &:focus {
+        &:hover {
             outline: #c33 1px solid;
+        }
+
+        &:focus {
+            outline: #c33 2px solid;
         }
     }
 
@@ -184,6 +202,30 @@
             top: 2px;
             left: 2px;
         }
+
+        &.button--previous {
+            clear: none;
+            font-size: 1.2rem;
+
+            @media screen and (min-width: 650px){
+                display: inline;
+                float: left;
+            }
+        }
+
+        &.button__send--js {
+            display: block;
+            margin: 0 auto 20px;
+            clear: none;
+            font-size: 1.6rem;
+
+            @media screen and (min-width: 650px){
+                display: inline;
+                float: right;
+                position: relative;
+                bottom: 140px;
+            }
+        }
     }
 
     .err-msg {
@@ -198,6 +240,10 @@
     .err-field {
         outline: 2px solid #631daa;
         color: #631daa;
+
+        &:focus {
+            border-color: transparent;
+        }
     }
 }
 

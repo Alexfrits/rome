@@ -6,6 +6,7 @@
 *   1. Langues
 *   2. Scripts
 *   3. Styles
+*   4. 
 */
 
 
@@ -14,6 +15,9 @@
 
 function rome_setup() {
   load_theme_textdomain('rome-1', get_template_directory().'/languages');
+  add_theme_support('post-thumbnails');
+  // add_image_size($name, $width, $height, $crop);
+  add_image_size('carre', 200, 200, true);
 }
 add_action('after_setup_theme', 'rome_setup');
 
@@ -47,4 +51,3 @@ add_action( 'wp_enqueue_scripts', 'rome_styles');
 // HTML5 search form (from WP engine). To made your own one, create searchform.php.
 add_theme_support( 'html5', array( 'search-form' ) );
 
-?>

@@ -1,9 +1,9 @@
 <aside>
     <?php
-    
+
     /*
     *   **TODO**
-    *   transformer ce bout de code 
+    *   transformer ce bout de code
     *   en fonction réutilisable ailleurs
     */
 
@@ -16,8 +16,7 @@
     $tax = get_taxonomies($args, $output);
 
     foreach ($tax as $t => $v) {
-        // pour toutes les taxo custom, sauf category_media (qui est celle du MCM)
-        if ($t !== 'category_media') {
+        if ($t === 'visites' || $t === 'infospratiques') {
             // affiche le titre de la taxo
             echo '<h2>' . $v->labels->name . '</h2>';
             // crée la liste des items de la catégorie
@@ -30,7 +29,7 @@
 
              foreach ($cat as $i => $u) {
                 echo '<li><a href="' . home_url() . '/' . $v->name . '/' . $u->slug . '">' . $u->name . '</a></li>';
-             };  
+             };
             echo '</ul>';
         }
     }

@@ -234,7 +234,7 @@ else { ?>
             <label for="visite">Choix de la visite
                 <select
                     <?php echo (isset($to_ajax['errors']['visite']) ? 'class="err-field" ' : '') ?>
-                    id="visite" name="visite" id="visite" required>
+                    id="visite" name="visite" id="visite" required autofocus>
                     <?php echo $option_str; ?>
                 </select>
             </label>

@@ -5,6 +5,12 @@
         var $formidable = $('#reservation');
         if($formidable.length) {
 
+            var clearErrorsMsg = function ($form) {
+                $form.find('label').children().removeClass('err-field');
+                $form.find('.form-no').remove();
+                $form.find('.err-msg').remove();
+            }
+
             $formidable.addClass('js');
 
             var $button = $formidable.find('button'),
@@ -40,12 +46,11 @@
                 if(i < $fsetList.length - 1) {
                     $(this).append('<a class="button button--next" data-step="' + (i + 2) + '" data-id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '" id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '-next">Étape suivante (' + (i + 2) + '/' + $fsetList.length + ')</a>');
                     $btnsNext.push($fsetList.eq(i).find('#' + $formidable.attr('id') + '-' + $fsetList.eq(i)[0].slug + '-next'));
+
+                    // make "Next step" button usable with keyboard (Enter).
                     $(this).on('keydown', function(e) {
                         if(e.which == 13) {
-                            console.log($('.button--next'));
-                            $('.button--next').trigger('click',(function(e) {
-                                console.log('clic clic');
-                            }));
+                            $('.button--next').trigger('click',(function(e) {}));
                             e.preventDefault();
                         }
                     });
@@ -77,9 +82,7 @@
                     nextStep = $(this).attr('data-step');
 
                     // reset/delete error boxes & msg
-                    $parentFieldset.find('label').children().removeClass('err-field');
-                    $parentFieldset.find('.form-no').remove();
-                    $parentFieldset.find('.err-msg').remove();
+                    clearErrorsMsg($formidable);
 
                         // send request for 1st part of the form
                         formVisiteXHR = $.post(
@@ -98,18 +101,20 @@
                                                 .animate({ right: '0%' }, 600, function() {
                                                     if($fsetList.length == nextStep)
                                                         $button.show();
+                                                    $(this).find('label').first().children().trigger('focus');
                                                 });
                                         });
                                     }
                                     else {
-                                        // manage errors
+                                        // manage errors & focus 1st error field
                                         var err_msg = '';
                                         $.each(resp.errors, function(key, err) {
                                             err_msg += '<p class="err-msg">' + err +'</p>';
                                             $('[id="' + key + '"').addClass('err-field');
                                         });
                                         $parentFieldset
-                                            .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg);
+                                            .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg)
+                                            .find('.err-field').first().trigger('focus');
                                     }
                                 }
                             },'json');
@@ -121,6 +126,10 @@
 
                 $(this).on('click', function(e) {
                     e.preventDefault();
+
+                    // reset/delete error boxes & msg
+                    clearErrorsMsg($formidable);
+
 
                     // Get fieldset slug from class like 'fset--visite'
                     $parentFieldset = $(this).parent('fieldset').first();
@@ -160,9 +169,7 @@
 
                             if(resp.status === 0) {
                                 if(resp.mail === 1) {
-                                    $button
-                                        .animate({ transform: scale(0)}, 350, function() { })
-                                        .hide();
+                                    $button.hide();
                                     $fsetList.last().fadeOut(600, function() {
                                         $formidable.before('<p class="form-ok"><strong>' + resp.mail_msg +'</strong></p>');
                                     });

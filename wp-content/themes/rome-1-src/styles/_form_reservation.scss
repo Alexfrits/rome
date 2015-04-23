@@ -163,9 +163,12 @@
         text-align: center;
         overflow: visible;
 
-        &:hover,
-        &:focus {
+        &:hover {
             outline: #c33 1px solid;
+        }
+
+        &:focus {
+            outline: #c33 2px solid;
         }
     }
 
@@ -237,6 +240,10 @@
     .err-field {
         outline: 2px solid #631daa;
         color: #631daa;
+
+        &:focus {
+            border-color: transparent;
+        }
     }
 }
 

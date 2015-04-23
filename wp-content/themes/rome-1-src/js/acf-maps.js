@@ -4,7 +4,20 @@
 ===================================================================*/
 
 (function($) {
+
+// force le redraw dans chrome (workaround pour les SVG)
+function redraw (element){
+  var n = document.createTextNode(' ');
+  element.append(n);
+  (function(){
+    n.parentNode.removeChild(n);
+  })();
+}
+
 var openWindow = 0;
+
+
+
 /*  RENDER MAP
 =====================================================================
 *
@@ -106,12 +119,7 @@ function add_marker( $marker, map ) {
     // show info window when marker is clicked
     google.maps.event.addListener(marker, 'click', function() {
       // si une infowindow est ouverte
-
-      if (openWindow !== 0) {
-        // on la ferme
-        openWindow.close();
-      }
-      // on ouvre la nouvelle
+      if (openWindow !== 0) { openWindow.close(); }
       openWindow = infowindow;
       infowindow.open( map, marker );
     });
@@ -123,6 +131,8 @@ function add_marker( $marker, map ) {
     });
   }
 }
+
+
 
 /*  CENTER MAP
 =====================================================================
@@ -168,48 +178,72 @@ function center_map( map ) {
 /*  affiche/cache les markers de la catégorie correspondante
 ===================================================================*/
 
+
+
 // Sets the map on all markers in the array.
 function setAllMap(map) {
   for (var i = 0; i < markers.length; i++) {
-      markers[i].setMap(null);
+      markers[i].setMap(map);
   }
-}
-
-function clearMap() {
-  setAllMap(null);
 }
 
 function gmccInit() {
   // Récupère l'élément de classe gmcc (google maps custom controls)
   $gmcc = $('.gmcc');
 
+  // ajoute la classe active à tous les filtres et supprime leur couleur
+  $('.gmcc__marker').attr('class', 'gmcc__marker active')
+  .find('.gmcc__marker__bg').removeAttr('fill');
+  $gmcc.find('.gmcc__filter').addClass('active');
+
   // Récup la liste de liens (filtres), les converti en controls et les positionne sur la map
   gMap.controls[google.maps.ControlPosition.RIGHT_CENTER].push(
     document.getElementById('gmcc_wrapper')
   );
 
-  // attribution du click
-  $gmcc.find('a').on('click', function (e) {
-    e.preventDefault();
-    $filterCat = $(this).attr('data-cat');
-
-    // clearMap(null);
-
+    function drawCatMarkers (category, map) {
+    // cache les markers dont la catégorie est la même que celle du bouton cliqué
     for (var i = 0; i < markers.length; i++) {
-      if (markers[i].cat == $filterCat) {
+      if (markers[i].cat === category) {
+        markers[i].setMap(map);
+      }
+    }
+  }
+
+  function clearCatMarkers (category) {
+    // cache les markers dont la catégorie est la même que celle du bouton cliqué
+    for (var i = 0; i < markers.length; i++) {
+      if (markers[i].cat === category) {
         markers[i].setMap(null);
       }
     }
+  }
 
-    //  // Boucle sur tous les markers (objets jQuery)
-    // $markers.each(function() {
+  // attribution du click
+  $gmcc.find('a').on('click', function (e) {
+    e.preventDefault();
 
-    //     // vérifie la catégorie des markers par rapport à celle du bouton cliqué
-    //     // si MÊME CATEGORIE, alors on affiche le marqueur
-    //     if (marker.cat == $filterCat) {
-    //       add_marker($(this), gMap);
-    //     }
-    //  });
+    $theFilter = $(this).parents('.gmcc__filter');
+    $filterCat = $(this).attr('data-cat');
+    $theIcon = $('#icon-' + $filterCat);
+
+    if($theFilter.hasClass('active')) {
+      
+      // retire les classes 'active des éléments de DOM'
+      $theFilter.removeClass('active');
+      $theIcon.attr('class', 'gmcc__marker');
+      // supprime les markers correspondant de la map
+      clearCatMarkers($filterCat);
+      // redraw les icones SVG (fix chrome)
+      redraw($theIcon);
+    } else {
+      $theFilter.addClass('active');
+      $theIcon.attr('class', 'gmcc__marker active');
+
+      drawCatMarkers($filterCat, gMap);
+      
+      redraw($theIcon);
+    }
  });
 }
 
@@ -230,8 +264,8 @@ $(document).ready(function(){
 
   if($('.acf-map').length) {
     // initialisation des var inter-fonctions
-    var map = {};
     var markers = [];
+    var map = {};
 
     $('.acf-map').each(function(){
 

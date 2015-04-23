@@ -31,30 +31,47 @@
 
     .gmcc__label {
       text-decoration: none;
-      clear: both;
+      &:active {
+        color: #c33;
+      }
     }
+
+    .gmcc__label__name,
+    .gmcc__marker__wrapper {
+      display: block;
+    }
+
+    &.active {
+      .gmcc__label {
+        color: #c33;
+      }
+    }
+
   }
 }
 
 /*  PICTOS (Classes in SVG document) */
+.gmcc__marker__wrapper {
+  width: 23px;
+  height: 30px;
+}
 .gmcc__marker {
   .gmcc__marker__picto {
-    fill: orange;
+    fill: #333;
   }
-
+  .gmcc__marker__bg {
+    fill: #ddd;
+  }
 
 
   &.active {
     .gmcc__marker__picto {
-      fill: green;
+    fill: #fff;
+    }
+
+    .gmcc__marker__bg {
+      fill: #c33;
     }
   }
 }
-.gmcc__marker__bg {
-  fill: blue;
-}
-.gmcc__marker__wrapper {
-  background:pink;
-  width: 23px;
-  height: 30px;
-}
+

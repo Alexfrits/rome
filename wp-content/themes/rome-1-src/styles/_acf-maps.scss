@@ -13,32 +13,34 @@
 /*  GMCC STYLES
 ===================================================================*/
 
-.svg-init {
-  display: none;
-  visibility: hidden;
-}
-
 .gmcc__wrapper {
   background: #fff;
+  box-shadow: 0 0 10px 0 #9F9F9F;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: linear-gradient(to left, #dce1e8, rgba(255, 255, 255, 0.7) 80%);
+
+  font-family: "yanone_kaffeesatzregular";
+  font-size: 1.4em;
+
 
   .gmcc {
-    background:gold;
     text-align: center;
   }
   .gmcc__filter {
-    list-style-type: none;
-    background: lime;
+      list-style-type: none;
+      padding: 1em;
 
     .gmcc__label {
       text-decoration: none;
-      &:active {
-        color: #c33;
-      }
+      color: #333;
+
     }
 
     .gmcc__label__name,
     .gmcc__marker__wrapper {
       display: block;
+      margin: 0 auto;
     }
 
     &.active {

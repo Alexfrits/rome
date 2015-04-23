@@ -35,10 +35,25 @@ function render_map( $el ) {
   $markers = $el.find('.marker');
 
   // vars
+
+  // var controlsOpt = {
+  //     style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+  //     position: google.maps.ControlPosition.BOTTOM_CENTER,
+  //     mapTypeIds: [
+  //       google.maps.MapTypeId.ROADMAP,
+  //       google.maps.MapTypeId.TERRAIN
+  //     ]
+  //   };
+
   var args = {
     zoom      : 16,
     center    : new google.maps.LatLng(0, 0),
     mapTypeId : google.maps.MapTypeId.ROADMAP,
+    // mapTypeControl: true,
+    // mapTypeControlOptions: controlsOpt,
+    // zoomControlOptions: {
+    //   style: google.maps.ZoomControlStyle.SMALL
+    // }
   };
 
 
@@ -97,7 +112,7 @@ function add_marker( $marker, map ) {
   var marker = new google.maps.Marker({
     position  : latlng,
     map       : map,
-    // icon      : image
+    icon      : image
   });
 
   // add custom property to the gMaps marker object

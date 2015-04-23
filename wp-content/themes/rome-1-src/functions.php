@@ -44,4 +44,7 @@ function rome_styles() {
 add_action( 'wp_enqueue_scripts', 'rome_styles');
 
 
+// HTML5 search form (from WP engine). To made your own one, create searchform.php.
+add_theme_support( 'html5', array( 'search-form' ) );
+
 ?>

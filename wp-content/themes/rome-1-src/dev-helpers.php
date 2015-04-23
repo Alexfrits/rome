@@ -26,9 +26,11 @@
             $file = explode('\\', $file);
 
         $n = count($file);
-        echo '<p class="debug-msg">Now in: ';
+        // echo '<p class="debug-msg">Now in: ';
+        echo '';
         if($n > 1) // display 1 parent directory if it exists
-            echo $file[$n-2].'/';
-        echo '<strong>'.$file[$n-1].'</strong></p>';
+            // echo $file[$n-2].'/';
+        // echo '<strong>'.$file[$n-1].'</strong></p>';
+        echo '';
     }
 ?>

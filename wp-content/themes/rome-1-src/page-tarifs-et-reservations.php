@@ -142,10 +142,16 @@ include_once('dev-helpers.php');
                 $head .= "MIME-Version: 1.0 \r\n";
                 $head .= "Content-Type: text/html; charset-utf-8 \r\n";
 
-                if(mail($to,$subject,$msg,$head))
+                if(mail($to,$subject,$msg,$head)) {
                     $to_ajax['mail'] = 1;
-                else
+                    $to_ajax['mail_msg'] = 'Votre demande de réservation a été enregistrée et vous est envoyée par mail. Nous y répondrons dès que possible.';
+                    $mail_msg_class = 'form-ok';
+                }
+                else {
                     $to_ajax['mail'] = 0;
+                    $to_ajax['mail_msg'] = 'La Poste est en grève, votre réservation n’a pu aboutir. Décrochez donc votre téléphone pour nous appeler. :(';
+                    $mail_msg_class = 'form-no';
+                }
             }
         }
 
@@ -211,12 +217,10 @@ else { ?>
 
     <h1 style="color: #770000;">Note : penser au mode de paiement (ou bien osef).</h1>
 
-    <?php // mail msg
-
-        if(isset($to_ajax['mail']))
-            echo ($to_ajax['mail'] == 1
-                ? '<p class="form-ok"><strong>Votre demande de réservation a été enregistrée et vous est envoyée par mail. Nous y répondrons dès que possible.</strong></p>'
-                : '<p class="form-no"><strong>La Poste est en grève, votre réservation n’a pu aboutir. Décrochez donc votre téléphone pour nous appeler. :(</strong></p>'); ?>
+    <?php // mail msg ?>
+    <?php if(isset($to_ajax['mail_msg'])): ?>
+        <p class="<?php echo $mail_msg_class; ?>"><strong><?php echo $to_ajax['mail_msg']; ?></strong></p>
+    <?php endif; ?>
 
     <form id="reservation" method="post">
 

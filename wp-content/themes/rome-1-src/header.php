@@ -19,5 +19,6 @@
 			<li><a href="<?php echo home_url(); ?>/tarifs-et-reservations/">Tarifs et réservations</a> </li>
 	    </ul>
 	</nav>
+    <?php get_search_form(true); ?>
     <div id="deco"></div>
 </header>

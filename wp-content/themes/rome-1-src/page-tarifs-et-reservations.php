@@ -215,8 +215,6 @@ else { ?>
         <h2><?php the_title(); ?></h2>
     <?php endif; ?>
 
-    <h1 style="color: #770000;">Note : penser au mode de paiement (ou bien osef).</h1>
-
     <?php // mail msg ?>
     <?php if(isset($to_ajax['mail_msg'])): ?>
         <p class="<?php echo $mail_msg_class; ?>"><strong><?php echo $to_ajax['mail_msg']; ?></strong></p>

@@ -5,6 +5,8 @@
         var $formidable = $('#reservation');
         if($formidable.length) {
 
+            $formidable.addClass('js');
+
             var $button = $formidable.find('button'),
                 fsetPrefix = 'fset--',
 
@@ -17,7 +19,7 @@
 
 
             // Hide form final button
-            $button.hide();
+            $button.hide().addClass('button__send--js');
 
 
             // Add a 'slug' property to every fieldset Object + add previous/next buttons to the form
@@ -30,14 +32,23 @@
                 if(i > 0) {
                     $(this)
                         .hide()
-                        .append('<a class="button" data-step="' + i + '" data-id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '" id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '-previous">Étape précédente (' + i + '/' + $fsetList.length + ')</a>');
+                        .append('<a class="button button--previous" data-step="' + i + '" data-id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '" id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '-previous">Étape précédente (' + i + '/' + $fsetList.length + ')</a>');
                     $btnsPrev.push($fsetList.eq(i).find('#' + $formidable.attr('id') + '-' + $fsetList.eq(i)[0].slug + '-previous'));
                 }
 
                 // Next buttons
                 if(i < $fsetList.length - 1) {
-                    $(this).append('<a class="button" data-step="' + (i + 2) + '" data-id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '" id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '-next">Étape suivante (' + (i + 2) + '/' + $fsetList.length + ')</a>');
+                    $(this).append('<a class="button button--next" data-step="' + (i + 2) + '" data-id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '" id="' + $formidable.attr('id') + '-' + $fsetList[i].slug + '-next">Étape suivante (' + (i + 2) + '/' + $fsetList.length + ')</a>');
                     $btnsNext.push($fsetList.eq(i).find('#' + $formidable.attr('id') + '-' + $fsetList.eq(i)[0].slug + '-next'));
+                    $(this).on('keydown', function(e) {
+                        if(e.which == 13) {
+                            console.log($('.button--next'));
+                            $('.button--next').trigger('click',(function(e) {
+                                console.log('clic clic');
+                            }));
+                            e.preventDefault();
+                        }
+                    });
                 }
             });
 
@@ -78,7 +89,7 @@
                                 if(status == 'success') {
 
                                     if(resp.status === 0) {
-                                        // valid fieldset: animate & go to 2nd fieldset
+                                        // valid fieldset: animate & go to next fieldset
                                         $parentFieldset.animate({ left: '-150%' }, 600, function() {
                                             $(this).hide();
                                             $(this).next('fieldset')
@@ -149,6 +160,9 @@
 
                             if(resp.status === 0) {
                                 if(resp.mail === 1) {
+                                    $button
+                                        .animate({ transform: scale(0)}, 350, function() { })
+                                        .hide();
                                     $fsetList.last().fadeOut(600, function() {
                                         $formidable.before('<p class="form-ok"><strong>' + resp.mail_msg +'</strong></p>');
                                     });

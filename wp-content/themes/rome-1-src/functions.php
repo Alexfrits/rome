@@ -6,7 +6,7 @@
 *   1. Langues
 *   2. Scripts
 *   3. Styles
-*   4. 
+*   4. Shortcode guides pictures list
 */
 
 
@@ -51,3 +51,30 @@ add_action( 'wp_enqueue_scripts', 'rome_styles');
 // HTML5 search form (from WP engine). To made your own one, create searchform.php.
 add_theme_support( 'html5', array( 'search-form' ) );
 
+
+/*  5. SHORTCODE guides pictures list
+===================================================================*/
+
+// function rome_picture_list() {
+//   $return_string = '';
+
+//   $args = array(
+//     'post_type'   => 'home',
+//     'posts_per_page'  => 1
+//   );
+//   $custom_query = new WP_Query($args);
+
+//   if($custom_query->have_posts()):
+//     while($custom_query->have_posts()): the_post();
+//       $return_string = the_title() + 'bloabla';
+//     endwhile;
+//   endif;
+//   wp_reset_postdata();
+//   return $return_string;
+// }
+
+// function rome_register_shortcode() {
+//   add_shortcode('picturelist', 'rome_picture_list');
+// }
+
+// add_action('init', 'rome_register_shortcode');

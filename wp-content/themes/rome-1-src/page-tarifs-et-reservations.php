@@ -15,8 +15,44 @@ https://codex.wordpress.org/Function_Reference/wp_mail
 
 // global $wpdb; /* pour utiliser l'objet DB de WP, si on améliore en stockant en DB les réservations */
 
-include_once('dev-helpers.php');
+$visit_max = 90; // on peut réserver jusqu'à $visit_max jours à l'avance
+$gens_max = 40; // nombre max. de participants à une visite
 
+
+// format de date jj/mm/yyyy + date comprise entre demain et dans N jours
+function date_check($date,$nb_days_further) {
+
+    if($date != '') {
+
+            $visit_time = strtotime($date);
+            $now_time = time();
+            $nb_days_further = 90;
+
+            $valid_date = (
+                preg_match("/(2[0-9]{3})-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])/", $date)
+                && $visit_time > $now_time
+                && $visit_time < $now_time + 86400 * $nb_days_further
+                ? 1 : 0
+            );
+            return $valid_date;
+    }
+    else
+        return 0;
+}
+
+// format de l'heure (ex. : 13:37)
+function heure_check($heure) {
+    $valid_heure = (preg_match("/([01][0-9]|2[0-3]):[0-5][0-9]/", $heure) ? 1 : 0);
+    return $valid_heure;
+}
+
+function nb_gens_check($nb_gens,$nb_gens_max) {
+    $nb_gens = intval($nb_gens);
+    $valid_gens = ($nb_gens > 0 && $nb_gens <= $nb_gens_max ? 1 : 0);
+    return $valid_gens;
+}
+
+include_once('dev-helpers.php');
 
 /*  récupération des catégories (taxonomies) de visite
     on s'en sert à la vérif du formulaire et dans le HTML du formulaire.
@@ -38,65 +74,47 @@ include_once('dev-helpers.php');
     foreach ($visites as $i => $v) {
         $selected = '';
 
-        // traitement du slug de visite reçu en $_POST (ou en $_SERVER['HTTP_REFERER'] via wp_get_referer)
+        // vérification du slug de visite reçu en $_POST (ou en $_SERVER['HTTP_REFERER'] via wp_get_referer)
 
         if($visit_referer == $v->slug)
             $selected = ' selected';
 
-        if($visit_flag == 0 && isset($_POST['visite']))
+        if($visit_flag == 0 && isset($_POST['visite'])) {
             if($_POST['visite'] == $v->slug) {
                 $valid['visite'] = $v->name; // nom du circuit choisi envoyé par mail
                 $visit_flag = 1;
                 $selected = ' selected';
             }
-
+            else
+                $valid['visite'] = 0;
+        }
 
         // définition de la liste de visites
         $option_str .= '<option value="'.$v->slug.'"'.$selected.'>'.$v->name.'</option>';
     }
 
-
-/* vérification du formulaire */
-
     // $_POST['newsletter'] will be set only if checkbox is checked
     $newsletter_box = (isset($_POST['newsletter']) ? 'checked' : '');
 
-    if(isset($valid['visite'])) { // slug de visite valide : on vérifie donc le reste du formulaire
+/* vérification du formulaire */
 
-        // format de date (regex) + date comprise entre demain et dans 90 jours
-        if($_POST['date'] != '') {
+    if(isset($_POST['visite'])) {
 
-            $visit_time = strtotime($_POST['date']);
-            $now_time = time();
-            $visit_max = 90; // on peut réserver jusqu'à $visit_max jours à l'avance
+        $valid['date'] = date_check($_POST['date'], $visit_max);
+        $valid['heure'] = heure_check($_POST['heure']);
+        $valid['nb_gens'] = nb_gens_check($_POST['nb_gens'], $gens_max);
 
-            $valid['date'] = (
-                preg_match("/(2[0-9]{3})-(0[0-9]|1[0-2])-([0-2][0-9]|3[01])/", $_POST['date'])
-                && $visit_time > $now_time
-                && $visit_time < $now_time + 86400 * $visit_max
-                ? 1 : 0
-            );
+        if($_POST['fset-check'] != 'visite') {
+
+            // nom (au moins 3 caractères)
+            $valid['nom'] = (strlen($_POST['nom']) > 2 ? 1 : 0);
+
+            // mail
+            $valid['mail'] = (is_email($_POST['mail']) ? 1 : 0);
+
+            // tél : à faire sérieusement
+            $valid['tel'] = (strlen($_POST['tel']) > 5 ? 1 : 0);
         }
-        else
-            $valid['date'] = 0;
-
-        // format de l'heure
-        $valid['heure'] = (preg_match("/([01][0-9]|2[0-3]):[0-5][0-9]/", $_POST['heure']) ? 1 : 0);
-
-        // nombre de gens
-        $gens_max = 40; // à intégrer dans l'admin
-        $gens = intval($_POST['nb_gens']);
-        $valid['nb_gens'] = ($gens > 0 && $gens <= $gens_max ? 1 : 0);
-
-        // nom (au moins 3 caractères)
-        $valid['nom'] = (strlen($_POST['nom']) > 2 ? 1 : 0);
-
-        // mail
-        $valid['mail'] = (is_email($_POST['mail']) ? 1 : 0);
-
-        // tél : à faire sérieusement
-        $valid['tel'] = (strlen($_POST['tel']) > 5 ? 1 : 0);
-
 
         // search for unvalid field
         $err_flag = 0;
@@ -112,20 +130,23 @@ include_once('dev-helpers.php');
             $to_ajax['status'] = 0;
 
             // mail stuff
-            $to = 'meduzen@gmail.com,frits.alex@gmail.com,'.$_POST['mail'];
-            $subject = 'Visiter Rome : votre réservation du circuit '.$valid['visite'];
+            if($_POST['fset-check'] != 'visite') {
 
-            $msg = '<h1>'.$_POST['nom'].',</h1>';
-            $msg .= "<strong>Blablabla.</strong>";
+                $to = 'meduzen@gmail.com,frits.alex@gmail.com,'.$_POST['mail'];
+                $subject = 'Visiter Rome : votre réservation du circuit '.$valid['visite'];
 
-            $head = "From: reservation@visiter-rome.com \r\n";
-            $head .= "MIME-Version: 1.0 \r\n";
-            $head .= "Content-Type: text/html; charset-utf-8 \r\n";
+                $msg = '<h1>'.$_POST['nom'].',</h1>';
+                $msg .= "<strong>Blablabla.</strong>";
 
-            if(mail($to,$subject,$msg,$head))
-                $to_ajax['mail'] = 1;
-            else
-                $to_ajax['mail'] = 0;
+                $head = "From: reservation@visiter-rome.com \r\n";
+                $head .= "MIME-Version: 1.0 \r\n";
+                $head .= "Content-Type: text/html; charset-utf-8 \r\n";
+
+                if(mail($to,$subject,$msg,$head))
+                    $to_ajax['mail'] = 1;
+                else
+                    $to_ajax['mail'] = 0;
+            }
         }
 
         /* unvalid form, manage errors */
@@ -136,7 +157,7 @@ include_once('dev-helpers.php');
 
             // keys with errors
             $err_list = array_keys($valid,'0');
-            a($err_list);
+            // a($err_list);
 
             // init error messages (NEED IMPROVMENTS)
             $err_msg_list = [
@@ -159,9 +180,7 @@ include_once('dev-helpers.php');
 // AJAX
 
 if(isset($_POST['ajax'])) {
-    // if(isset($error))
-        echo json_encode($to_ajax);
-    exit;
+    echo json_encode($to_ajax);
 }
 
 else { ?>

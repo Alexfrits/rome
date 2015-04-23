@@ -1,11 +1,14 @@
 #reservation {
 
+    overflow: hidden;
+
     fieldset {
         position: relative;
         clear: both;
         margin: 60px auto 0;
         padding: 3em 0 1em;
         border: none;
+        background: #edeff3;
 
         legend {
             display: block;
@@ -16,6 +19,11 @@
             font-size: 3rem;
             color: #663;
         }
+
+        @media screen and (min-width: 450px){
+            padding: 3em 1em 1em;
+        }
+
 
         @media screen and (min-width: 1111px){
             float: left;
@@ -187,7 +195,7 @@
         box-shadow: 3px 3px 3px rgba(#444,.3);
     }
 
-    input.err-field {
+    .err-field {
         outline: 2px solid #631daa;
         color: #631daa;
     }

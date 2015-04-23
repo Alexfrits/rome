@@ -6,5 +6,5 @@
 
 /////////////////////////////////////////////////*/
 
-  include_once('archive-activites.php');
+    get_template_part('archive-activites');
 ?>

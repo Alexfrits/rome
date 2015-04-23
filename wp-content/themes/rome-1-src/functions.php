@@ -55,26 +55,26 @@ add_theme_support( 'html5', array( 'search-form' ) );
 /*  5. SHORTCODE guides pictures list
 ===================================================================*/
 
-// function rome_picture_list() {
-//   $return_string = '';
+function rome_picture_list() {
+  $return_string = '';
+  $pictures_guides = new WP_Query('page=&post_type=guides');
 
-//   $args = array(
-//     'post_type'   => 'home',
-//     'posts_per_page'  => 1
-//   );
-//   $custom_query = new WP_Query($args);
+  // récupère les photos des guides et en fait une liste
+  if($pictures_guides->have_posts()):
+    $return_string = '<div class="picture-list__wrapper"><ul class="picture-list">';
+    while($pictures_guides->have_posts()): $pictures_guides->the_post();
+        $return_string .= '<li class="picture-list__item">';
+        $return_string .= '<img  class="picture-list__item__img" src="' . get_field_object('photo')['value']['sizes']['carre'] . '" alt="la photo de '. get_the_title() . '">';
+        $return_string .= '</li>';
+    endwhile;
+    $return_string .= '</ul></div>';
+  endif;
+  wp_reset_postdata();
+  return $return_string;
+}
 
-//   if($custom_query->have_posts()):
-//     while($custom_query->have_posts()): the_post();
-//       $return_string = the_title() + 'bloabla';
-//     endwhile;
-//   endif;
-//   wp_reset_postdata();
-//   return $return_string;
-// }
+function rome_register_shortcode() {
+  add_shortcode('picturelist', 'rome_picture_list');
+}
 
-// function rome_register_shortcode() {
-//   add_shortcode('picturelist', 'rome_picture_list');
-// }
-
-// add_action('init', 'rome_register_shortcode');
+add_action('init', 'rome_register_shortcode');

@@ -228,7 +228,7 @@ function gmccInit() {
     $theIcon = $('#icon-' + $filterCat);
 
     if($theFilter.hasClass('active')) {
-      
+
       // retire les classes 'active des éléments de DOM'
       $theFilter.removeClass('active');
       $theIcon.attr('class', 'gmcc__marker');
@@ -241,7 +241,7 @@ function gmccInit() {
       $theIcon.attr('class', 'gmcc__marker active');
 
       drawCatMarkers($filterCat, gMap);
-      
+
       redraw($theIcon);
     }
  });

@@ -1,0 +1,25 @@
+/*===================================================================
+  Picture List shortcode
+===================================================================*/
+/*
+* Gallery of pictures of the guides
+* used on homepage via page 'qui sommes nous'
+*/
+
+.picture-list__wrapper {
+
+  .picture-list {
+    @extend .guides-index;
+    list-style-type: none;
+
+  }
+
+  .picture-list__item {
+    display: inline-block;
+
+  }
+
+  .picture-list__item__img {
+
+  }
+}

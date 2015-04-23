@@ -6,8 +6,6 @@
 
 
   <h1>La ville à voir ... et à revoir !</h1>
-
-
 <?php
   $page_qsn_query = new WP_Query( 'page=&pagename=qui-sommes-nous' );
 
@@ -15,33 +13,13 @@
     while($page_qsn_query->have_posts()): $page_qsn_query->the_post();?>
       <h2><?php the_title(); ?></h2>
       <?php the_content(); ?>
-      <?php the_id(); ?>
-      
+
     <? endwhile;
   endif; wp_reset_postdata(); ?>
-
-<?php
-  $custom_query = new WP_Query('page=&post_type=guides');
-
-  if($custom_query->have_posts()): ?>
-    <ul>
-    <?php while($custom_query->have_posts()): $custom_query->the_post(); ?>
-      <li>
-        <img src="<?php echo get_field_object('photo')['value']['sizes']['carre']; ?>" alt="">
-      </li>
-    <?php endwhile; ?>
-  </ul>
-  <? endif;
-  wp_reset_postdata();
-
-?>
-
-
-
 </main>
 
 
-<!--  
+<!--
 <main>
  <h1>La ville à voir ... et à revoir !</h1>
   <p><strong>Rome, la ville éternelle ...Qui n'a pas rêvé de la visiter ?</strong><br>
@@ -50,7 +28,7 @@
   <h2>Qui sommes nous ?</h2>
   <p>Nous sommes 5 historiennes de l'art passionnées par notre ville. Nous vous proposons toute une série de formules adaptées aux envies et au «&nbsp;timing&nbsp;» de chacun.</p>
   <p class="guides-index">
-  <img src="images/guides/juliaThumb.jpg" alt=""> 
+  <img src="images/guides/juliaThumb.jpg" alt="">
   <img src="images/guides/silvioThumb.jpg" alt="">
   <img src="images/guides/pamThumb.jpg" alt="">
   <img src="images/guides/RobertoThumb.jpg" alt="" >
@@ -65,7 +43,7 @@
     <li> info sur les évènenent et la vie romaine ...</li>
   </ul>
   <p>Vous trouverez aussi sur ce site, une mine de renseignements utiles et de liens vers des sites intéressants .</p>
-  <p>Bonne visite...</p> 
+  <p>Bonne visite...</p>
 </main>
 -->
 

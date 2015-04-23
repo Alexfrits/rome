@@ -2,38 +2,36 @@
 <?php now_in(__FILE__) ?>
 
 <?php echo home_url(); ?>
+<main>
 
 
 <?php if(have_posts()) : ?>
     <?php
         // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
         $locations = []; ?>
-        <a href="<?php echo get_permalink(get_page_by_path('tarifs-et-reservations')) ?>">Réserver</a>
 
-    <?php while(have_posts()) : $location=[];?>
-        <?php the_post(); ?>
-        <h3><?php the_title(); ?></h3>
-        <p><?php the_content(); ?></p>
-        <?php if(get_field('duree_de_la_visite')):?>
-            <p>Durée de la visite&nbsp;: <?php the_field('duree_de_la_visite'); ?>
-        <?php endif; ?>
-        </p>
-        <?php
-            // stockage titre du lieu
-            $location['title'] = get_the_title();
-            // stockage contenu de l'article
-            $location['content'] = get_the_content();
-            // stockage infos gmaps
-            $location['gmap'] = get_field('google_map');
-            // vérifie si le lieu a les infos de position
-            if( !empty($location) ):
-                // pousse les infos dans l'array à chaque lieu
-                $locations[] = $location;
-            endif;
-        ?>
-    <?php endwhile; ?>
+    <?php while(have_posts()) :
+        $location=[];
+        the_post();
+        if(get_field('duree_de_la_visite')) {
+            $location['duree'] = get_field('duree_de_la_visite');
+        };
+        // stockage titre du lieu
+        $location['title'] = get_the_title();
+        // stockage contenu de l'article
+        $location['content'] = get_the_content();
+        // stockage infos gmaps
+        $location['gmap'] = get_field('google_map');
+        // vérifie si le lieu a les infos de position
+        if( !empty($location) ){
+            // pousse les infos dans l'array à chaque lieu
+            $locations[] = $location;
+        };
+    endwhile; ?>
+        <p>Durée de la visite: <?php echo $location['duree']; ?></p>
+        <a href="<?php echo get_permalink(get_page_by_path('tarifs-et-reservations')) ?>">Réserver</a>
 <?php endif; ?>
-    
+
 
 <!--  AFFICHAGE GOOGLE MAPS
 ==================================================================-->
@@ -63,6 +61,7 @@
     <?php endforeach; ?>
     </div>
 <?php endif; ?>
+</main>
 
 
 

@@ -88,6 +88,9 @@ function add_marker( $marker, map ) {
     icon      : image
   });
 
+  // add custom property to the gMaps marker object
+  marker.cat = $marker.attr('data-cat');
+
   // add to array
   map.markers.push( marker );
   markers = map.markers;
@@ -168,8 +171,12 @@ function center_map( map ) {
 // Sets the map on all markers in the array.
 function setAllMap(map) {
   for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
+      markers[i].setMap(null);
   }
+}
+
+function clearMap() {
+  setAllMap(null);
 }
 
 function gmccInit() {
@@ -183,24 +190,26 @@ function gmccInit() {
 
   // attribution du click
   $gmcc.find('a').on('click', function (e) {
+    e.preventDefault();
+    $filterCat = $(this).attr('data-cat');
 
-   e.preventDefault();
-   $filterCat = $(this).attr('data-cat');
-   console.log($('.svg-init'));
+    // clearMap(null);
 
-     // EFFACER tous les repères qui ne sont pas de la catégorie cliquée
-     setAllMap(null);
+    for (var i = 0; i < markers.length; i++) {
+      if (markers[i].cat == $filterCat) {
+        markers[i].setMap(null);
+      }
+    }
 
-   // Boucle sur tous les markers (objets jQuery)
-   $markers.each(function() {
-     $markerCat = $(this).attr('data-cat');
+    //  // Boucle sur tous les markers (objets jQuery)
+    // $markers.each(function() {
 
-     // vérifie la catégorie des markers par rapport à celle du bouton cliqué
-     // si MÊME CATEGORIE, alors on affiche le marqueur
-     if ($markerCat == $filterCat) {
-         add_marker($(this), gMap);
-     }
-   });
+    //     // vérifie la catégorie des markers par rapport à celle du bouton cliqué
+    //     // si MÊME CATEGORIE, alors on affiche le marqueur
+    //     if (marker.cat == $filterCat) {
+    //       add_marker($(this), gMap);
+    //     }
+    //  });
  });
 }
 

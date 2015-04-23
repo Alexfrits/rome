@@ -14,8 +14,8 @@
 	<nav>
     	<ul>
 			<li><a href="<?php echo home_url(); ?>">Accueil</a> </li>
-			<li><a href="<?php echo home_url(); ?>">Visites</a> </li>
-			<li><a href="<?php echo home_url(); ?>">Guides</a></li>
+			<li><a href="<?php echo home_url(); ?>/visites/">Visites</a> </li>
+			<li><a href="<?php echo home_url(); ?>/guides/">Guides</a></li>
 			<li><a href="<?php echo home_url(); ?>/tarifs-et-reservations/">Tarifs et réservations</a> </li>
 	    </ul>
 	</nav>

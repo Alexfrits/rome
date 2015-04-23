@@ -27,115 +27,106 @@
                 if(i > 0) {
                     $(this)
                         .hide()
-                        .append('<a class="button" data-step="' + i + '" id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '">Étape précédente (' + i + '/' + $fsetList.length + ')</a>');
+                        .append('<a class="button" data-step="' + i + '" data-id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '" id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '-previous">Étape précédente (' + i + '/' + $fsetList.length + ')</a>');
+                    $btnsPrev.push($fsetList.eq(i).find('#' + $reservation.attr('id') + '-' + $fsetList.eq(i)[0].slug + '-previous'));
                 }
 
                 if(i < $fsetList.length - 1) {
-                    $(this).append('<a class="button" data-step="' + (i + 2) + '" id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '">Étape suivante (' + (i + 2) + '/' + $fsetList.length + ')</a>');
+                    $(this).append('<a class="button" data-step="' + (i + 2) + '" data-id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '" id="' + $reservation.attr('id') + '-' + $fsetList[i].slug + '-next">Étape suivante (' + (i + 2) + '/' + $fsetList.length + ')</a>');
+                    $btnsNext.push($fsetList.eq(i).find('#' + $reservation.attr('id') + '-' + $fsetList.eq(i)[0].slug + '-next'));
                 }
-
-
-                // foutre les listeners en une fois ou bien à chaque validation ?
-                $btnsNext.push($fsetList.eq(i).find('#' + $reservation.attr('id') + '-' + $fsetList.eq(i)[0].slug));
-                $btnsPrev.push($fsetList.eq(i).find('#' + $reservation.attr('id') + '-' + $fsetList.eq(i)[0].slug));
             });
 
 
+        // Listener on next buttons: includes AJAX + animations + error managements.
+        // note : tous les listeners sont créés dès la page chargée. est-ce optimal ?
+        // ne vaudrait-il mieux pas créer et supprimer les listeners à chaque changement de fieldset ?
 
-        // FORM NAVIGATION
+            $.each($btnsNext, function(i, b) {
 
+                $(this).on('click', function(e) {
+                    e.preventDefault();
 
+                    // get fieldset slug from class like 'fset--visite': if more than one class is on the fieldset, it still works!
+                    $parentFieldset = $(this).parent('fieldset').first();
+                    fsetSlug = $parentFieldset.attr('class').split(' ');
+                    for(var i = 0; i < fsetSlug.length; i++) {
+                        if(fsetSlug[i].search(fsetPrefix) != -1){
+                            fsetSlug = fsetSlug[i].replace(fsetPrefix,'');
+                            break;
+                        }
+                    }
 
+                    // reset/delete error boxes & msg
+                    $parentFieldset.find('label').children().removeClass('err-field');
+                    $('.form-no').remove();
+                    $('.err-msg').remove();
 
+                        // send request for 1st part of the form
+                        formVisiteXHR = $.post(
+                            '',
+                            $parentFieldset.serialize() + '&fset-check=' + fsetSlug + '&ajax=1',
+                            function(resp, status) {
+                                if(status == 'success') {
 
+                                    if(resp.status === 0) {
 
+                                        // animate & go to 2nd fieldset
+                                        $parentFieldset.animate({ left: '-150%' }, 600, function() {
+                                            $(this).hide();
+                                            $(this).next('fieldset')
+                                                .css({ right: '-150%' })
+                                                .show()
+                                                .animate({ right: '0%' }, 600, function() {});
+                                            $button.show();
+                                        });
+                                    }
+                                    else {
+                                        // manage errors
+                                        var err_msg = '';
+                                        $.each(resp.errors, function(key, err) {
+                                            err_msg += '<p class="err-msg">' + err +'</p>';
+                                            $('[id="' + key + '"').addClass('err-field');
+                                        });
+                                        $parentFieldset
+                                            .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg);
+                                    }
+                                }
+                            },
+                            'json');
+                });
+            });
 
+        // step back §§
 
-            // add nav button + listener to 2nd fieldset and hide the fieldset
-            $fsetContact
-                .hide();
-                // .append('<a class="button" id="' + $reservation.attr('id') + '-contact">Étape précédente (1/2)</a>');
+            $.each($btnsPrev, function(i, b) {
 
-            var $formNavTwo = $fsetContact.find('#' + $reservation.attr('id') + 'reservation-contact');
-            $formNavTwo.on('click', function(e) {
-                e.preventDefault();
+                $(this).on('click', function(e) {
+                    e.preventDefault();
 
-                        // finish 1st part first
+                    // get fieldset slug from class like 'fset--visite'
+                    $parentFieldset = $(this).parent('fieldset').first();
+                    fsetSlug = $parentFieldset.attr('class').split(' ');
+                    for(var i = 0; i < fsetSlug.length; i++) {
+                        if(fsetSlug[i].search(fsetPrefix) != -1){
+                            fsetSlug = fsetSlug[i].replace(fsetPrefix,'');
+                            break;
+                        }
+                    }
 
-                $fsetContact.animate({ right: '-150%' }, 600, function() {
-                    $(this).hide();
-                    $fsetVisite
-                        .css({ left: '-150%' })
-                        .show()
-                        .animate({ left: '0%' }, 600, function() {});
-                    $button.show();
+                    // animate & go to previous fieldset
+                    $parentFieldset.animate({ right: '-150%' }, 600, function() {
+                        $(this).hide();
+                        $(this).prev('fieldset')
+                            .css({ left: '-150%' })
+                            .show()
+                            .animate({ left: '0%' }, 600, function() {});
+                        $button.show();
+                    });
                 });
             });
 
 
-
-
-
-
-            // add nav button to 1st fieldset + listener
-            var $formNavOne = $fsetList.eq(0).find('#' + $reservation.attr('id') + '-' + $fsetList.eq(0)[0].slug);
-
-
-            $formNavOne.on('click', function(e) {
-                e.preventDefault();
-
-                // get fieldset slug from class like 'fset--visite'
-                $parentFieldset = $(this).parent('fieldset').first();
-                fsetSlug = $parentFieldset.attr('class').split(' ');
-                for(var i = 0; i < fsetSlug.length; i++) {
-                    if(fsetSlug[i].search(fsetPrefix) != -1){
-                        fsetSlug = fsetSlug[i].replace(fsetPrefix,'');
-                        break;
-                    }
-                }
-
-                // reset/delete error boxes & msg
-                $parentFieldset.find('label').children().removeClass('err-field');
-                $('.form-no').remove();
-                $('.err-msg').remove();
-
-                /* START 1ST FIELDSET AJAX VALIDATION */
-                    // send request for 1st part of the form
-                    formVisiteXHR = $.post(
-                        '',
-                        $parentFieldset.serialize() + '&fset-check=' + fsetSlug + '&ajax=1',
-                        function(resp, status) {
-                            if(status == 'success') {
-
-                                if(resp.status === 0) {
-
-                                    // animate & go to 2nd fieldset
-                                    $parentFieldset.animate({ left: '-150%' }, 600, function() {
-                                        $(this).hide();
-                                        $fsetContact
-                                            .css({ right: '-150%' })
-                                            .show()
-                                            .animate({ right: '0%' }, 600, function() {});
-                                        $button.show();
-                                    });
-                                }
-                                else {
-                                    // manage errors
-                                    var err_msg = '';
-                                    $.each(resp.errors, function(key, err) {
-                                        err_msg += '<p class="err-msg">' + err +'</p>';
-                                        $('[id="' + key + '"').addClass('err-field');
-                                    });
-                                    $fsetVisite
-                                        .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg);
-                                }
-                            }
-                        },
-                        'json');
-
-                /* END 1ST FIELDSET AJAX VALIDATION */
-
-            });
 
         // AJAX form réservation validation
             $reservation.on('submit', function(e) {

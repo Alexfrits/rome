@@ -67,8 +67,8 @@
 
                     // reset/delete error boxes & msg
                     $parentFieldset.find('label').children().removeClass('err-field');
-                    $('.form-no').remove();
-                    $('.err-msg').remove();
+                    $parentFieldset.find('.form-no').remove();
+                    $parentFieldset.find('.err-msg').remove();
 
                         // send request for 1st part of the form
                         formVisiteXHR = $.post(
@@ -134,26 +134,34 @@
             $formidable.on('submit', function(e) {
                 e.preventDefault();
 
+                // reset/delete error boxes & msg
+                $(this).find('label').children().removeClass('err-field');
+                $(this).find('.form-no').remove();
+                $(this).find('.err-msg').remove();
+
                 // Send request
-                reservation = $.post(
+                formXHR = $.post(
                     '',                    
                     $(this).serialize() + '&ajax=1',
                     function(resp, status) {
                         if(status == 'success') {
                             resp = JSON.parse(resp);
-                            console.log (resp);
 
-                            if(resp.status === 1) {
-                                $formidable.before('<p class="form-ok"><strong>' + resp.status +'</strong></p>');
+                            if(resp.status === 0) {
+                                if(resp.mail === 1) {
+                                    $fsetList.last().fadeOut(600, function() {
+                                        $formidable.before('<p class="form-ok"><strong>' + resp.mail_msg +'</strong></p>');
+                                    });
+                                }
                             }
-                            else {
-                                var err_msg = '';
-                                $.each(resp.errors, function(key, err) {
-                                    err_msg += '<p class="err-msg">' + err +'</p>';
-                                });
-                                $formidable
-                                    .before('<p class="form-no"><strong>' + resp.status +'</strong></p>')
-                                    .find('.fset--visite').prepend(err_msg);
+                            else { // manage errors
+                                    var err_msg = '';
+                                    $.each(resp.errors, function(key, err) {
+                                        err_msg += '<p class="err-msg">' + err +'</p>';
+                                        $('[id="' + key + '"').addClass('err-field');
+                                    });
+                                    $parentFieldset
+                                        .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg);
                             }
                         }
                     });

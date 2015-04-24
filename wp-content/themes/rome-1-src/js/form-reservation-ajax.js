@@ -107,11 +107,12 @@
                                     }
                                     else {
                                         // manage errors & focus 1st error field
-                                        var err_msg = '';
+                                        var err_msg = '<ul class="err-msg">';
                                         $.each(resp.errors, function(key, err) {
-                                            err_msg += '<p class="err-msg">' + err +'</p>';
+                                            err_msg += '<li>' + err +'</li>';
                                             $('[id="' + key + '"').addClass('err-field');
                                         });
+                                        err_msg += '</ul>';
                                         $parentFieldset
                                             .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg)
                                             .find('.err-field').first().trigger('focus');
@@ -176,11 +177,12 @@
                                 }
                             }
                             else { // manage errors
-                                    var err_msg = '';
+                                    var err_msg = '<ul class="err-msg">';
                                     $.each(resp.errors, function(key, err) {
-                                        err_msg += '<p class="err-msg">' + err +'</p>';
+                                        err_msg += '<li>' + err +'</li>';
                                         $('[id="' + key + '"').addClass('err-field');
                                     });
+                                    err_msg += '</ul>';
                                     $parentFieldset
                                         .before('<p class="form-no"><strong>' + resp.status +'</strong></p>' + err_msg);
                             }

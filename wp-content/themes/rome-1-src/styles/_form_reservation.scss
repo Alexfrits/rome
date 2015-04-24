@@ -18,7 +18,7 @@
     fieldset {
         position: relative;
         clear: both;
-        margin: 60px auto 0;
+        margin: 40px auto 0;
         padding: 3em 0 1em;
         border: none;
         background: #edeff3;
@@ -43,7 +43,7 @@
             clear: none;
             width: auto;
             max-width: calc(50% - 50px);
-            margin: 0;
+            // margin: 0;
 
             &.fset--visite {
                 margin-right: 40px;
@@ -198,9 +198,7 @@
         }
 
         &:active {
-            position: relative;
-            top: 2px;
-            left: 2px;
+            transform: scale(.8)
         }
 
         &.button--previous {
@@ -229,12 +227,19 @@
     }
 
     .err-msg {
-        padding: .25em;
+        padding: .25em 1em;
         background: #fff;
-        border-left: 4px solid #631daa;
         color: #631daa;
         text-transform: none;
-        box-shadow: 3px 3px 3px rgba(#444,.3);
+        box-shadow: 5px 3px 3px rgba(#444,.3);
+
+        li {
+            list-style-type: square;
+            margin: 1em 0;
+            // border-left: 1em solid #631daa;
+            padding: 0;
+            line-height: 1;
+        }
     }
 
     .err-field {
@@ -260,5 +265,6 @@
     padding: .5em;
     border: 2px solid #631daa;
     color: #631daa;
+    text-align: center;
     background: #fff;
 }

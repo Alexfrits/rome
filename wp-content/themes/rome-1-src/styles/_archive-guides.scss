@@ -1,6 +1,11 @@
 .guides-list__wrapper {
   box-sizing: border-box;
   font-family: "yanone_kaffeesatzregular";
+  margin: -2em;
+  @include mq($small) {
+    margin: 0;
+  }
+
 
   .guides-list {
     @extend .guides-index;

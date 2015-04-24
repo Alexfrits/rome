@@ -2,6 +2,9 @@
   box-sizing: border-box;
   font-family: "yanone_kaffeesatzregular";
   margin: -2em;
+  ul {
+    padding-left: 0;
+  }
   li {
     list-style-type: none;  
   }

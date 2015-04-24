@@ -255,7 +255,7 @@ function gmccInit() {
     //éléments de la liste sous la carte
     var $actInfItems = $actInf.find('li.cat-' + $filterCat);
 
-
+    /* CACHER */
     if($theFilter.hasClass('active')) {
       // retire les classes 'active des éléments de DOM'
       $theFilter.removeClass('active');
@@ -272,6 +272,7 @@ function gmccInit() {
         $(this).appendTo($actInf);
       });
 
+      /* MONTRER */
     } else {
       $theFilter.addClass('active');
       $theIcon.attr('class', 'gmcc__marker active');
@@ -280,7 +281,9 @@ function gmccInit() {
 
       redraw($theIcon);
 
-      $actInfItems.fadeIn('100');
+      $actInfItems.prependTo($actInf, function () {
+        fadeIn('100');
+      });
     }
  });
 }

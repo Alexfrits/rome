@@ -197,10 +197,8 @@ function center_map( map ) {
   }
 }
 
-/*  affiche/cache les markers de la catégorie correspondante
+/*  GMCC
 ===================================================================*/
-
-
 
 // Sets the map on all markers in the array.
 function setAllMap(map) {
@@ -212,6 +210,10 @@ function setAllMap(map) {
 function gmccInit() {
   // Récupère l'élément de classe gmcc (google maps custom controls)
   $gmcc = $('.gmcc');
+
+  // classe qui contient les infos des activités
+  // (en-dessous de la map dans infospratiques)
+  $actInf = $('.act-inf');
 
   // ajoute la classe active à tous les filtres et supprime leur couleur
   $('.gmcc__marker').attr('class', 'gmcc__marker active')
@@ -245,19 +247,31 @@ function gmccInit() {
   $gmcc.find('a').on('click', function (e) {
     e.preventDefault();
 
-    $theFilter = $(this).parents('.gmcc__filter');
-    $filterCat = $(this).attr('data-cat');
-    $theIcon = $('#icon-' + $filterCat);
+    /* VARIABLES */
+    var $theFilter = $(this).parents('.gmcc__filter');
+    var $filterCat = $(this).attr('data-cat');
+    var $theIcon = $('#icon-' + $filterCat);
+
+    //éléments de la liste sous la carte
+    var $actInfItems = $actInf.find('li.cat-' + $filterCat);
+
 
     if($theFilter.hasClass('active')) {
-
       // retire les classes 'active des éléments de DOM'
       $theFilter.removeClass('active');
       $theIcon.attr('class', 'gmcc__marker');
+
       // supprime les markers correspondant de la map
       clearCatMarkers($filterCat);
+
       // redraw les icones SVG (fix chrome)
       redraw($theIcon);
+
+      // cache les infos des activités du type cliqué
+      $actInfItems.fadeOut('100', function () {
+        $(this).appendTo($actInf);
+      });
+
     } else {
       $theFilter.addClass('active');
       $theIcon.attr('class', 'gmcc__marker active');
@@ -265,6 +279,8 @@ function gmccInit() {
       drawCatMarkers($filterCat, gMap);
 
       redraw($theIcon);
+
+      $actInfItems.fadeIn('100');
     }
  });
 }
@@ -300,6 +316,10 @@ $(document).ready(function(){
     ;
 
     gmccInit();
+
+    if($('.act-int')){
+
+    }
   }
 });
 })(jQuery);

@@ -62,10 +62,32 @@
         <ul>
             <?php
             $locations = [];
+            $i = 0;
             while($the_query->have_posts()):
+
                 // init / vide l'array
                 $location = [];
                 $the_query->the_post();
+
+                //
+                if($i === 0) {
+                    $loc_full = get_field_objects();
+                }
+
+                foreach ($loc_full as $key => $loc) {
+                    // $location[$key] = $loc;
+                    $location[$key]['name'] = $loc['name'];
+                    $location[$key]['label'] = $loc['label'];
+                    $location[$key]['value'] = $loc['value'];
+                    if(isset($loc['append']))
+                        if($loc['append'] != '')
+                            $location[$key]['append'] = $loc['append'];
+
+                    if(isset($loc['prepend']))
+                        if($loc['prepend'] != '')
+                            $location[$key]['prepend'] = $loc['prepend'];
+                }
+                $i++;
 
                 // stocke le titre du marker
                 $location['title'] = get_the_title();
@@ -83,6 +105,7 @@
                 if( !empty($location) ):
                     $locations[] = $location;
                 endif;
+                a($location);
             endwhile; ?>
         </ul>
         <?php //a($locations); ?>

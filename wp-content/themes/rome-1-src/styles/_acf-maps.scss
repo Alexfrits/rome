@@ -21,11 +21,18 @@
   background: linear-gradient(to left, #dce1e8, rgba(255, 255, 255, 0.7) 80%);
 
   font-family: "yanone_kaffeesatzregular";
-  font-size: 1.4em;
+  font-size: 1.2em;
 
+
+  .gmcc__title {
+    text-align: center;
+    font-size: 1.8em;
+    margin: .5em .8em;
+  }
 
   .gmcc {
     text-align: center;
+    padding: 0;
   }
   .gmcc__filter {
       list-style-type: none;

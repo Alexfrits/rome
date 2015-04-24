@@ -99,6 +99,7 @@
     cette classe est utilisée par le JS dans acf-maps.js
 -->
 <div class="gmcc__wrapper" id="gmcc_wrapper">
+    <h2 class="gmcc__title">Filtres</h2>
     <ul class="gmcc">
         <?php
         $args = [

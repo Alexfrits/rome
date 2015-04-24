@@ -104,32 +104,161 @@ add_filter('wp_title','rome_site_title');
 /*  6. Users
 ===================================================================*/
 
-// function bat_crapologue() {
-//     add_role('crapologue','Crapologue');
-//     $role = get_role('crapologue');
-//     $role->add_cap('read',true);
-//     $role->add_cap('edit_posts',true);
-//     $role->add_cap('delete_posts',true);
-//     $role->add_cap('publish_espece',true);
-//     $role->add_cap('publish_especes',true);
-//     $role->add_cap('edit_espece',true);
-//     $role->add_cap('edit_especes',true);
-//     $role->add_cap('delete_espece',true);
-//     $role->add_cap('delete_especes',true);
-//     $role->add_cap('edit_other_espece',true);
-//     $role->add_cap('edit_other_especes',true);
-//     $role->add_cap('edit_published_espece',true);
-//     $role->add_cap('edit_published_especes',true);
-// }
-// add_action('admin_init','bat_crapologue');
+// le chef \o/
 
-// function bat_administrator() {
-//     $role = get_role('administrator');
-//     $role->add_cap('publish_espece',true);
-//     $role->add_cap('publish_especes',true);
-//     $role->add_cap('edit_espece',true);
-//     $role->add_cap('edit_especes',true);
-//     $role->add_cap('delete_espece',true);
-//     $role->add_cap('delete_especes',true);
-// }
-// add_action('admin_init','bat_administrator');
+function rome_admin_create() {
+    remove_role('manager');
+    add_role ('manager','Gestionnaire');
+}
+add_action( 'admin_init', 'rome_admin_create');
+
+function rome_admin_caps() {
+
+    // base
+    $role = get_role('manager');
+
+    $role->add_cap('read');
+    $role->add_cap('edit_posts');
+    // $role->add_cap('delete_posts');
+    $role->add_cap( 'edit_others_pages' );
+    $role->add_cap( 'edit_others_posts' );
+    $role->add_cap( 'edit_pages' );
+    $role->add_cap( 'edit_private_pages' );
+    // $role->add_cap( 'edit_private_posts' );
+    $role->add_cap( 'edit_published_pages' );
+    // $role->add_cap( 'edit_published_posts' );
+    $role->add_cap( 'upload_files' );
+
+    // users
+    $role->add_cap('list_users');
+    $role->add_cap('create_users');
+    $role->add_cap('add_users');
+    $role->add_cap('edit_users');
+    $role->add_cap('delete_users');
+    $role->add_cap('remove_users');
+
+    // categories/taxonomies
+    $role->add_cap('manage_categories');
+
+
+    // home
+/*    $role->add_cap('edit_home',true);
+    $role->add_cap('edit_homes',true);
+    $role->add_cap('delete_home',true);
+    $role->add_cap('delete_homes',true);
+    $role->add_cap('edit_other_home',true);
+    $role->add_cap('edit_other_homes',true);
+    $role->add_cap('edit_published_home',true);
+    $role->add_cap('edit_published_homes',true);
+
+    // guides
+    $role->add_cap('publish_guides',true);
+    $role->add_cap('publish_guidess',true);
+    $role->add_cap('edit_guides',true);
+    $role->add_cap('edit_guidess',true);
+    $role->add_cap('delete_guides',true);
+    $role->add_cap('delete_guidess',true);
+    $role->add_cap('edit_other_guides',true);
+    $role->add_cap('edit_other_guidess',true);
+    $role->add_cap('edit_published_guides',true);
+    $role->add_cap('edit_published_guidess',true);
+
+    // activités
+    $role->add_cap('publish_activite',true);
+    $role->add_cap('publish_activites',true);
+    $role->add_cap('edit_activite',true);
+    $role->add_cap('edit_activites',true);
+    $role->add_cap('delete_activite',true);
+    $role->add_cap('delete_activites',true);
+    $role->add_cap('edit_other_activite',true);
+    $role->add_cap('edit_other_activites',true);
+    $role->add_cap('edit_published_activite',true);
+    $role->add_cap('edit_published_activites',true);
+
+    // lieux
+    $role->add_cap('publish_lieu',true);
+    $role->add_cap('publish_lieus',true);
+    $role->add_cap('edit_lieu',true);
+    $role->add_cap('edit_lieus',true);
+    $role->add_cap('delete_lieu',true);
+    $role->add_cap('delete_lieus',true);
+    $role->add_cap('edit_other_lieu',true);
+    $role->add_cap('edit_other_lieus',true);
+    $role->add_cap('edit_published_lieu',true);
+    $role->add_cap('edit_published_lieus',true);*/
+}
+add_action('admin_init','rome_admin_caps');
+
+
+// les employés \o/
+
+function rome_writers_create() {
+    remove_role('writers');
+    add_role ('writers','Writers');
+}
+add_action( 'admin_init', 'rome_writers_create');
+
+function rome_writers_caps() {
+
+    // base
+    $role = get_role('writers');
+    $role->add_cap('read');
+    $role->add_cap('edit_posts');
+    $role->add_cap( 'edit_others_pages' );
+    $role->add_cap( 'edit_others_posts' );
+    $role->add_cap( 'edit_pages' );
+    $role->add_cap( 'edit_private_pages' );
+    $role->add_cap( 'edit_published_pages' );
+    $role->add_cap( 'upload_files' );
+
+    // below: doesn't work :(
+
+    // home
+/*    $role->add_cap('edit_home',true);
+    $role->add_cap('edit_homes',true);
+    $role->add_cap('delete_home',true);
+    $role->add_cap('delete_homes',true);
+    $role->add_cap('edit_other_home',true);
+    $role->add_cap('edit_other_homes',true);
+    $role->add_cap('edit_published_home',true);
+    $role->add_cap('edit_published_homes',true);
+
+    // guides
+    $role->add_cap('publish_guides',true);
+    $role->add_cap('publish_guidess',true);
+    $role->add_cap('edit_guides',true);
+    $role->add_cap('edit_guidess',true);
+    $role->add_cap('delete_guides',true);
+    $role->add_cap('delete_guidess',true);
+    $role->add_cap('edit_other_guides',true);
+    $role->add_cap('edit_other_guidess',true);
+    $role->add_cap('edit_published_guides',true);
+    $role->add_cap('edit_published_guidess',true);
+
+    // activités
+    $role->add_cap('publish_activite',true);
+    $role->add_cap('publish_activites',true);
+    $role->add_cap('edit_activite',true);
+    $role->add_cap('edit_activites',true);
+    $role->add_cap('delete_activite',true);
+    $role->add_cap('delete_activites',true);
+    $role->add_cap('edit_other_activite',true);
+    $role->add_cap('edit_other_activites',true);
+    $role->add_cap('edit_published_activite',true);
+    $role->add_cap('edit_published_activites',true);
+
+    // lieux
+    $role->add_cap('publish_lieu',true);
+    $role->add_cap('publish_lieus',true);
+    $role->add_cap('edit_lieu',true);
+    $role->add_cap('edit_lieus',true);
+    $role->add_cap('delete_lieu',true);
+    $role->add_cap('delete_lieus',true);
+    $role->add_cap('edit_other_lieu',true);
+    $role->add_cap('edit_other_lieus',true);
+    $role->add_cap('edit_published_lieu',true);
+    $role->add_cap('edit_published_lieus',true);*/
+}
+add_action('admin_init','rome_writers_caps');
+
+?>

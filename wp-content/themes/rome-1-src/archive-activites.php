@@ -62,32 +62,12 @@
         <ul>
             <?php
             $locations = [];
-            $i = 0;
+
             while($the_query->have_posts()):
 
                 // init / vide l'array
                 $location = [];
                 $the_query->the_post();
-
-                //
-                if($i === 0) {
-                    $loc_full = get_field_objects();
-                }
-
-                foreach ($loc_full as $key => $loc) {
-                    // $location[$key] = $loc;
-                    $location[$key]['name'] = $loc['name'];
-                    $location[$key]['label'] = $loc['label'];
-                    $location[$key]['value'] = $loc['value'];
-                    if(isset($loc['append']))
-                        if($loc['append'] != '')
-                            $location[$key]['append'] = $loc['append'];
-
-                    if(isset($loc['prepend']))
-                        if($loc['prepend'] != '')
-                            $location[$key]['prepend'] = $loc['prepend'];
-                }
-                $i++;
 
                 // stocke le titre du marker
                 $location['title'] = get_the_title();
@@ -101,14 +81,40 @@
                     $location['cat'] = $v->slug;
                 endforeach;
 
+                // get custom fields baby!
+                    $loc_full = get_field_objects();
+                    foreach ($loc_full as $key => $loc) {
+
+                        // champ google_map déjà récupéré dans gmap
+                        if ($loc['name'] !== 'google_map') {
+                            if ($key !== 'prefixe') {
+                                $location['infos'][$key]['name'] = $loc['name'];
+                                $location['infos'][$key]['label'] = $loc['label'];
+                                $location['infos'][$key]['value'] = $loc['value'];
+
+                                if(isset($loc['append']))
+                                    if($loc['append'] != '')
+                                        $location['infos'][$key]['append'] = $loc['append'];
+
+                                if(isset($loc['prepend']))
+                                    if($loc['prepend'] != '')
+                                        $location['infos'][$key]['prepend'] = $loc['prepend'];
+                            } else {
+                                // récupère la valeur du champ 'préfixe' comme prepend de 'prix'
+                                if(isset( $loc['value']))
+                                    if( $loc['value'] != '')
+                                        $location['infos']['prix']['prepend'] = $loc['value'];
+                            }
+                        }
+                    }
+
                 // si l'array a des infos, on les stocke dans $locations
                 if( !empty($location) ):
                     $locations[] = $location;
                 endif;
-                a($location);
+
             endwhile; ?>
         </ul>
-        <?php //a($locations); ?>
     <?php else: ?>
         <p><?php echo 'Aucun post correspondant à votre requête'; ?></p>
     <?php endif;
@@ -170,12 +176,43 @@
                 data-img="<?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?>"
                 >
                     <h3><?php echo $location['title']; ?></h3>
-                    <div><?php echo get_template_directory_uri() . '/img/gmaps-icons/icon-' . $location['cat'] . '.png'; ?></div>
                 </div>
             <?php endif; ?>
     <?php endforeach; ?>
     </div>
-<?php endif; ?>
+
+    <ul>
+        <?php  foreach($locations as $l => $v) : ?>
+            <?php  $loc_inf = $v['infos']; ?>
+            
+            <li>
+                <h3><?php echo $v['title']; ?></h3>
+                <p><?php echo $v['gmap']['address']; ?></p>
+                <ul>
+                    <li><?php echo $loc_inf['phone']['prepend'] . ' ' . $loc_inf['phone']['value']; ?></li>
+                    <li><?php echo $loc_inf['email']['value']; ?></li>
+                    <li><?php echo $loc_inf['website']['value']; ?></li>
+                    <li>
+                        <?php if(isset($loc_inf['prix']['prepend'])):
+                            echo $loc_inf['prix']['prepend'].' ';
+                        endif;
+                        echo $loc_inf['prix']['value'];
+                        echo $loc_inf['prix']['append']?>
+                    </li>
+                    <?php if(isset($loc_inf['horaires']['value'])): ?>
+                        <?php if($loc_inf['horaires']['value'] !== ''): ?>
+                            <li>
+                                <?php echo $loc_inf['horaires']['label']. ': '; ?>
+                                <?php echo $loc_inf['horaires']['value']; ?>
+                            </li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </ul>
+            </li>
+        <?php  endforeach; ?>
+    <?php endif; ?>
+        
+    </ul>
 </main>
 
 <?php get_sidebar(); ?>

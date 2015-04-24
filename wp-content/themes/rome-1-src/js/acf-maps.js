@@ -72,6 +72,7 @@ function render_map( $el ) {
 
   // center map
   center_map( map );
+
   return map;
 }
 
@@ -126,14 +127,21 @@ function add_marker( $marker, map ) {
   if( $marker.html() )
   {
     // create info window
+    var infoWindowContent = $marker.html();
     var infowindow = new google.maps.InfoWindow({
-      content   : $marker.html()
+      content   : infoWindowContent
     });
 
     // show info window when marker is clicked
     google.maps.event.addListener(marker, 'click', function() {
       // si une infowindow est ouverte
-      if (openWindow !== 0) { openWindow.close(); }
+      if (openWindow !== 0) {
+        openWindow.close();
+      }
+      // si on ne reclic pas sur le même marker
+      if (openWindow !== infowindow) {
+        // $('.acf-map__info-container').html(infoWindowContent);
+      }
       openWindow = infowindow;
       infowindow.open( map, marker );
     });
@@ -281,11 +289,16 @@ $(document).ready(function(){
     var markers = [];
     var map = {};
 
+    // génère une map à chaque div.acf-map 
+    // et lui/leur rajoute un container pour recevoir les infowindows
     $('.acf-map').each(function(){
 
       gMap = render_map($(this));
 
-    });
+    })
+    // .after('<div class="acf-map__info-container"></div>')
+    ;
+
     gmccInit();
   }
 });

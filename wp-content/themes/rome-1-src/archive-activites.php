@@ -180,39 +180,55 @@
             <?php endif; ?>
     <?php endforeach; ?>
     </div>
+    <div class="act-inf__wrapper">
+        <ul class="act-inf">
+            <?php  foreach($locations as $l => $v) : ?>
+                <?php  $loc_inf = $v['infos']; ?>
+                
+                <li class="act-inf__item cat-<?php echo $v['cat']; ?>">
+                    <div class="act-inf__item__col--left">
+                        <h3 class="act-inf__item__nom"><?php echo $v['title']; ?></h3>
+                        <p><?php echo $v['gmap']['address']; ?></p>
+                    </div>
 
-    <ul>
-        <?php  foreach($locations as $l => $v) : ?>
-            <?php  $loc_inf = $v['infos']; ?>
-            
-            <li>
-                <h3><?php echo $v['title']; ?></h3>
-                <p><?php echo $v['gmap']['address']; ?></p>
-                <ul>
-                    <li><?php echo $loc_inf['phone']['prepend'] . ' ' . $loc_inf['phone']['value']; ?></li>
-                    <li><?php echo $loc_inf['email']['value']; ?></li>
-                    <li><?php echo $loc_inf['website']['value']; ?></li>
-                    <li>
-                        <?php if(isset($loc_inf['prix']['prepend'])):
-                            echo $loc_inf['prix']['prepend'].' ';
-                        endif;
-                        echo $loc_inf['prix']['value'];
-                        echo $loc_inf['prix']['append']?>
-                    </li>
-                    <?php if(isset($loc_inf['horaires']['value'])): ?>
+                    <ul class="act-inf__item__col--right">
+                        <?php if($loc_inf['phone']['value'] !== ''): ?>
+                            <li><?php echo $loc_inf['phone']['prepend'] . ' ' . $loc_inf['phone']['value']; ?></li>
+                        <?php endif; ?>
+
+                        <?php if($loc_inf['email']['value'] !== ''): ?>
+                            <li><?php echo $loc_inf['email']['value']; ?></li>
+                        <?php endif; ?>
+
+                        <?php if($loc_inf['email']['value'] !== ''): ?>
+                            <li><?php echo $loc_inf['website']['value']; ?></li>
+                        <?php endif; ?>
+
+                        <?php if($loc_inf['prix']['value'] !== ''): ?>
+                            <li>
+                                <?php if(isset($loc_inf['prix']['prepend'])):
+                                    echo $loc_inf['prix']['prepend'].' ';
+                                endif;
+                                echo $loc_inf['prix']['value'];
+                                echo $loc_inf['prix']['append']?>
+                            </li>
+                        <?php endif; ?>
+
                         <?php if($loc_inf['horaires']['value'] !== ''): ?>
                             <li>
                                 <?php echo $loc_inf['horaires']['label']. ': '; ?>
                                 <?php echo $loc_inf['horaires']['value']; ?>
                             </li>
                         <?php endif; ?>
-                    <?php endif; ?>
-                </ul>
-            </li>
-        <?php  endforeach; ?>
-    <?php endif; ?>
+
+                    </ul>
+                </li>
+            <?php  endforeach; ?>
+        <?php endif; ?>
+            
+        </ul>
         
-    </ul>
+    </div>
 </main>
 
 <?php get_sidebar(); ?>

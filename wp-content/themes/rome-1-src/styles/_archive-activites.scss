@@ -1,0 +1,41 @@
+.act-inf__wrapper {
+  @extend .guides-list__wrapper;
+  margin-top: 3rem;
+
+  .act-inf {
+    @extend .guides-list;
+  }
+  .act-inf__item {
+    @extend .guides-list__item;
+
+    &.active {
+      display: none;
+    }
+  }
+
+  .act-inf__item__col--left {
+    @extend .guides-list__item__col--left;
+    @include mq($med) {
+      flex-direction: column;
+    }
+  }
+  .act-inf__item__col--right {
+    @extend .guides-list__item__col--right;
+  }
+
+  .act-inf__item__img {
+  }
+
+  .act-inf__item__nom {
+    @extend .guides-list__item__nom;
+  }
+  .act-inf__item__formation {
+    font-family: "yanone_kaffeesatzlight";
+    font-size: 1.4em;
+  }
+  .act-inf__item__ville {
+    text-transform: uppercase;
+    font-size: 2.2em;
+    vertical-align: bottom;
+  }
+}

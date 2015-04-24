@@ -2,10 +2,13 @@
   box-sizing: border-box;
   font-family: "yanone_kaffeesatzregular";
   margin: -2em;
+  li {
+    list-style-type: none;  
+  }
+
   @include mq($small) {
     margin: 0;
   }
-
 
   .guides-list {
     @extend .guides-index;
@@ -18,7 +21,6 @@
     }
   }
   .guides-list__item {
-    list-style-type: none;
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;

@@ -7,6 +7,8 @@
 *   2. Scripts
 *   3. Styles
 *   4. Shortcode guides pictures list
+*   5. HTML Header
+*   6. Users
 */
 
 
@@ -33,7 +35,6 @@ function rome_scripts() {
   wp_enqueue_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js', array(), '2.1.3', true);
   // wp_enqueue_script('google-jsapi','https://www.google.com/jsapi');
 }
-
 add_action('wp_enqueue_scripts', 'rome_scripts');
 // add_action('admin_enqueue_scripts', 'rome_scripts');
 
@@ -52,7 +53,7 @@ add_action( 'wp_enqueue_scripts', 'rome_styles');
 add_theme_support( 'html5', array( 'search-form' ) );
 
 
-/*  5. SHORTCODE guides pictures list
+/*  4. SHORTCODE guides pictures list
 ===================================================================*/
 
 function rome_picture_list() {
@@ -78,3 +79,57 @@ function rome_register_shortcode() {
 }
 
 add_action('init', 'rome_register_shortcode');
+
+
+/*  5. HTML Header
+===================================================================*/
+
+// nice <title>
+function rome_site_title($title) {
+
+  if(is_home())
+    return get_bloginfo('name');
+
+  elseif(is_archive() == true) {
+    $categories = get_the_category();
+    return $title. ' - '.get_bloginfo('name');
+  }
+
+  else
+    return get_the_title(get_the_id()).' - '.get_bloginfo('name');
+}
+add_filter('wp_title','rome_site_title');
+
+
+/*  6. Users
+===================================================================*/
+
+// function bat_crapologue() {
+//     add_role('crapologue','Crapologue');
+//     $role = get_role('crapologue');
+//     $role->add_cap('read',true);
+//     $role->add_cap('edit_posts',true);
+//     $role->add_cap('delete_posts',true);
+//     $role->add_cap('publish_espece',true);
+//     $role->add_cap('publish_especes',true);
+//     $role->add_cap('edit_espece',true);
+//     $role->add_cap('edit_especes',true);
+//     $role->add_cap('delete_espece',true);
+//     $role->add_cap('delete_especes',true);
+//     $role->add_cap('edit_other_espece',true);
+//     $role->add_cap('edit_other_especes',true);
+//     $role->add_cap('edit_published_espece',true);
+//     $role->add_cap('edit_published_especes',true);
+// }
+// add_action('admin_init','bat_crapologue');
+
+// function bat_administrator() {
+//     $role = get_role('administrator');
+//     $role->add_cap('publish_espece',true);
+//     $role->add_cap('publish_especes',true);
+//     $role->add_cap('edit_espece',true);
+//     $role->add_cap('edit_especes',true);
+//     $role->add_cap('delete_espece',true);
+//     $role->add_cap('delete_especes',true);
+// }
+// add_action('admin_init','bat_administrator');

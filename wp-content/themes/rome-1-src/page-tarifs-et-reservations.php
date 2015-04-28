@@ -226,10 +226,17 @@ else { ?>
         <fieldset class="fset--visite">
             <legend>La visite</legend>
 
-            <?php echo (isset($to_ajax['errors']['visite']) ? '<p class="err-msg">'.$to_ajax['errors']['visite'].'</p>' : '') ?>
-            <?php echo (isset($to_ajax['errors']['date']) ? '<p class="err-msg">'.$to_ajax['errors']['date'].'</p>' : '') ?>
-            <?php echo (isset($to_ajax['errors']['heure']) ? '<p class="err-msg">'.$to_ajax['errors']['heure'].'</p>' : '') ?>
-            <?php echo (isset($to_ajax['errors']['nb_gens']) ? '<p class="err-msg">'.$to_ajax['errors']['nb_gens'].'</p>' : '') ?>
+            <?php // errors management
+                if(count($to_ajax['errors']) > 0): ?>
+                <ul class="err-msg">
+                    <?php
+                        echo (isset($to_ajax['errors']['visite']) ?'<li>'.$to_ajax['errors']['visite'].'</li>' : '');
+                        echo (isset($to_ajax['errors']['date']) ?'<li>'.$to_ajax['errors']['date'].'</li>' : '');
+                        echo (isset($to_ajax['errors']['heure']) ?'<li>'.$to_ajax['errors']['heure'].'</li>' : '');
+                        echo (isset($to_ajax['errors']['nb_gens']) ?'<li>'.$to_ajax['errors']['nb_gens'].'</li>' : '');
+                    ?>
+                </ul>
+            <?php endif; ?>
 
             <label for="visite">Choix de la visite
                 <select
@@ -262,9 +269,16 @@ else { ?>
         <fieldset class="fset--contact">
             <legend>Vos coordonnées</legend>
 
-            <?php echo (isset($to_ajax['errors']['nom']) ? '<p class="err-msg">'.$to_ajax['errors']['nom'].'</p>' : '') ?>
-            <?php echo (isset($to_ajax['errors']['mail']) ? '<p class="err-msg">'.$to_ajax['errors']['mail'].'</p>' : '') ?>
-            <?php echo (isset($to_ajax['errors']['tel']) ? '<p class="err-msg">'.$to_ajax['errors']['tel'].'</p>' : '') ?>
+            <?php // errors management
+                if(count($to_ajax['errors']) > 0): ?>
+                <ul class="err-msg">
+                    <?php
+                        echo (isset($to_ajax['errors']['nom']) ?'<li>'.$to_ajax['errors']['nom'].'</li>' : '');
+                        echo (isset($to_ajax['errors']['mail']) ?'<li>'.$to_ajax['errors']['mail'].'</li>' : '');
+                        echo (isset($to_ajax['errors']['tel']) ?'<li>'.$to_ajax['errors']['tel'].'</li>' : '');
+                    ?>
+                </ul>
+            <?php endif; ?>
 
             <label for="nom">Vos nom et prénom, ou le nom de votre association, école…
                 <input  <?php echo (isset($to_ajax['errors']['nom']) ? 'class="err-field" ' : '') ?>

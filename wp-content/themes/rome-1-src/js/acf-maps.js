@@ -121,7 +121,7 @@ function add_marker( $marker, map ) {
   // create marker
   var marker = new google.maps.Marker({
     position  : latlng,
-    map       : map,
+    map       : null,
     icon      : image
   });
 

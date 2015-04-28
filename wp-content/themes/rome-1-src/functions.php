@@ -274,4 +274,3 @@ add_action('admin_init','rome_writers_caps');
 // add_filter('query_vars', 'add_query_vars');
 
 ?>
-

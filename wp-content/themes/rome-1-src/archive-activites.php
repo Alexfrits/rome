@@ -10,6 +10,7 @@
 <?php now_in(__FILE__) ?>
 
 <?php echo home_url(); ?>
+<?php echo get_query_var( ('pagename') ); ?>
 <?php 
     $infocat = explode('?infocat=', $_SERVER['REQUEST_URI']);
     $infocat = (is_array($infocat) ? $infocat[count($infocat) - 1] : '');

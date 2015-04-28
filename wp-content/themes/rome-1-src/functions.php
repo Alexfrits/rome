@@ -7,6 +7,7 @@
 *   2. Scripts
 *   3. Styles
 *   4. Shortcode guides pictures list
+*   5. add query var
 */
 
 
@@ -52,7 +53,7 @@ add_action( 'wp_enqueue_scripts', 'rome_styles');
 add_theme_support( 'html5', array( 'search-form' ) );
 
 
-/*  5. SHORTCODE guides pictures list
+/*  4. SHORTCODE guides pictures list
 ===================================================================*/
 
 function rome_picture_list() {
@@ -78,3 +79,15 @@ function rome_register_shortcode() {
 }
 
 add_action('init', 'rome_register_shortcode');
+
+/*  5. Add query var (passing parameter to the URL)
+===================================================================*/
+
+function add_query_vars($aVars) {
+$aVars[] = "infocat"; // represents the name of the product category as shown in the URL
+return $aVars;
+}
+
+// hook add_query_vars function into query_vars
+add_filter('query_vars', 'add_query_vars');
+

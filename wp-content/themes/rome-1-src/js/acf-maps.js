@@ -73,6 +73,15 @@ function render_map( $el ) {
   // center map
   center_map( map );
 
+  // $masupercat = $('[]');
+  // console.log($masupercat);
+  // $.each($masupercat,function() {
+  //   console.log('io');
+  //   $(this).trigger('click');
+  // });
+  // $gmcc.find('a').on('click'
+
+
   return map;
 }
 
@@ -216,9 +225,11 @@ function gmccInit() {
   $actInf = $('.act-inf');
 
   // ajoute la classe active à tous les filtres et supprime leur couleur
-  $('.gmcc__marker').attr('class', 'gmcc__marker active')
-  .find('.gmcc__marker__bg').removeAttr('fill');
-  $gmcc.find('.gmcc__filter').addClass('active');
+  if ($('.gmcc__filter').hasClass('active')) {
+    $('.gmcc__marker').attr('class', 'gmcc__marker active')
+    .find('.gmcc__marker__bg').removeAttr('fill');
+  }
+
 
   // Récup la liste de liens (filtres), les converti en controls et les positionne sur la map
   gMap.controls[google.maps.ControlPosition.RIGHT_CENTER].push(
@@ -281,9 +292,7 @@ function gmccInit() {
 
       redraw($theIcon);
 
-      $actInfItems.prependTo($actInf, function () {
-        fadeIn('100');
-      });
+      $actInfItems.fadeIn('100');
     }
  });
 }

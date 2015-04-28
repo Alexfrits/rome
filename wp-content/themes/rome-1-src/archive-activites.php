@@ -10,6 +10,12 @@
 <?php now_in(__FILE__) ?>
 
 <?php echo home_url(); ?>
+<?php 
+    $infocat = explode('?infocat=', $_SERVER['REQUEST_URI']);
+    $infocat = (is_array($infocat) ? $infocat[count($infocat) - 1] : '');
+    if(strstr($infocat, '/'))
+        $infocat = '';
+?>
 
 <svg>
     <defs>
@@ -40,7 +46,7 @@
     </defs>
 </svg>
 
-<main>
+<main <?php echo ($infocat != '' ? 'data-couille="'.$infocat.'"' : ''); ?>>
 
 <!--  MODIFICATION de la boucle (car on est dans un autre fichier)
 ==================================================================-->
@@ -138,7 +144,7 @@
         $visites = get_categories($args); ?>
 
         <?php foreach ($visites as $i => $v): ?>
-            <li class="gmcc__filter">
+            <li class="gmcc__filter ?>">
                 <a
                 class="gmcc__label"
                 data-cat="<?php echo $v->slug; ?>"
@@ -229,6 +235,8 @@
         </ul>
         
     </div>
+    <a href="<?php add_query_arg( 'infocat', 'dormir', site_url( '/infospratiques/' ) )?>">test</a>
+    <?php echo get_query_var( 'infocat' ); ?>
 </main>
 
 <?php get_sidebar(); ?>

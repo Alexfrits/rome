@@ -1,8 +1,5 @@
 <?php
 
-
-/* FICHIER EN TRAVAUX GRAVE */
-
 /* RESSOURCES
 
 https://codex.wordpress.org/Data_Validation
@@ -104,7 +101,7 @@ include_once('dev-helpers.php');
         $valid['heure'] = heure_check($_POST['heure']);
         $valid['nb_gens'] = nb_gens_check($_POST['nb_gens'], $gens_max);
 
-        if($_POST['fset-check'] != 'visite') {
+        if( !isset($_POST['fset-check']) || $_POST['fset-check'] == 'contact') {
 
             // nom (au moins 3 caractères)
             $valid['nom'] = (strlen($_POST['nom']) > 2 ? 1 : 0);
@@ -130,7 +127,7 @@ include_once('dev-helpers.php');
             $to_ajax['status'] = 0;
 
             // mail stuff
-            if($_POST['fset-check'] != 'visite') {
+            if(!isset($_POST['fset-check'])) {
 
                 $to = 'meduzen@gmail.com,frits.alex@gmail.com,'.$_POST['mail'];
                 $subject = 'Visiter Rome : votre réservation du circuit '.$valid['visite'];
@@ -227,15 +224,15 @@ else { ?>
             <legend>La visite</legend>
 
             <?php // errors management
-                if(count($to_ajax['errors']) > 0): ?>
-                <ul class="err-msg">
+                if(isset($to_ajax['errors']) && count($to_ajax['errors']) > 0): ?>
+                    <ul class="err-msg">
                     <?php
                         echo (isset($to_ajax['errors']['visite']) ?'<li>'.$to_ajax['errors']['visite'].'</li>' : '');
                         echo (isset($to_ajax['errors']['date']) ?'<li>'.$to_ajax['errors']['date'].'</li>' : '');
                         echo (isset($to_ajax['errors']['heure']) ?'<li>'.$to_ajax['errors']['heure'].'</li>' : '');
                         echo (isset($to_ajax['errors']['nb_gens']) ?'<li>'.$to_ajax['errors']['nb_gens'].'</li>' : '');
                     ?>
-                </ul>
+                    </ul>
             <?php endif; ?>
 
             <label for="visite">Choix de la visite
@@ -270,14 +267,14 @@ else { ?>
             <legend>Vos coordonnées</legend>
 
             <?php // errors management
-                if(count($to_ajax['errors']) > 0): ?>
-                <ul class="err-msg">
+                if(isset($to_ajax['errors']) && count($to_ajax['errors']) > 0): ?>
+                    <ul class="err-msg">
                     <?php
                         echo (isset($to_ajax['errors']['nom']) ?'<li>'.$to_ajax['errors']['nom'].'</li>' : '');
                         echo (isset($to_ajax['errors']['mail']) ?'<li>'.$to_ajax['errors']['mail'].'</li>' : '');
                         echo (isset($to_ajax['errors']['tel']) ?'<li>'.$to_ajax['errors']['tel'].'</li>' : '');
                     ?>
-                </ul>
+                    </ul>
             <?php endif; ?>
 
             <label for="nom">Vos nom et prénom, ou le nom de votre association, école…

@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<?php now_in(__FILE__) ?>
+<?php // now_in(__FILE__) ?>
 
 <?php echo home_url(); ?>
 <main>
@@ -28,8 +28,12 @@
             $locations[] = $location;
         };
     endwhile; ?>
+
+    <?php if(isset($location['duree'])): ?>
         <p>Durée de la visite: <?php echo $location['duree']; ?></p>
-        <a href="<?php echo get_permalink(get_page_by_path('tarifs-et-reservations')) ?>">Réserver</a>
+
+    <?php endif; ?>
+        <a class="btn__reserver" href="<?php echo get_permalink(get_page_by_path('tarifs-et-reservations')) ?>">Réserver cette visite</a>
 <?php endif; ?>
 
 

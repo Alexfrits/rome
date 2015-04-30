@@ -5,9 +5,6 @@
 
 <h1>La ville à voir… et à revoir !</h1>
 
-<!-- HOPHOPHOP début potentiel problème -->
-
-
 <!-- article home principal -->
 <?php
     $args = array(
@@ -26,7 +23,7 @@
         while($main_home_article->have_posts()) : $main_home_article->the_post(); ?>
             <h2><?php the_title(); ?></h2>
             <?php the_content(); ?>
-        <? endwhile;
+        <?php endwhile;
     endif; wp_reset_postdata(); ?>
 
 
@@ -42,7 +39,7 @@
         while($page_qsn_query->have_posts()) : $page_qsn_query->the_post(); ?>
             <h2><?php the_title(); ?></h2>
             <?php the_content(); ?>
-        <? endwhile;
+        <?php endwhile;
     endif; wp_reset_postdata(); ?>
 
 
@@ -64,10 +61,8 @@
         while($main_home_article->have_posts()) : $main_home_article->the_post(); ?>
             <h2><?php the_title(); ?></h2>
                 <?php the_content(); ?>
-        <? endwhile;
+        <?php endwhile;
     endif; wp_reset_postdata(); ?>
-
-<!-- HOPHOPHOP fin potentiel problème -->
 
 </main>
 

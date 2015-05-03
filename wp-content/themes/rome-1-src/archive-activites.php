@@ -68,12 +68,12 @@
     if ( $the_query->have_posts() ): ?>
         <ul>
             <?php
-            $locations = [];
+            $locations = array();
 
             while($the_query->have_posts()):
 
                 // init / vide l'array
-                $location = [];
+                $location = array();
                 $the_query->the_post();
 
                 // stocke le titre du marker
@@ -138,10 +138,10 @@
     <h2 class="gmcc__title">Filtres</h2>
     <ul class="gmcc">
         <?php
-        $args = [
+        $args = array(
             'taxonomy'      => 'infospratiques',
             'hide_empty'    => 1
-        ];
+        );
         $visites = get_categories($args); ?>
 
         <?php foreach ($visites as $i => $v): ?>

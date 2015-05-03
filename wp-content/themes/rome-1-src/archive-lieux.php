@@ -15,10 +15,10 @@
 <h1>Nos visites</h1>
     <ul>
         <?php
-        $args = [
+        $args = array(
             'taxonomy'      => 'visites',
             'hide_empty'    => 1
-        ];
+        );
         $visites = get_categories($args); ?>
 
         <?php foreach ($visites as $i => $v): ?>

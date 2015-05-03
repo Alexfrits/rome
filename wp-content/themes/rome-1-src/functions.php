@@ -66,7 +66,25 @@ function rome_picture_list() {
     $return_string = '<div class="picture-list__wrapper"><ul class="picture-list">';
     while($pictures_guides->have_posts()): $pictures_guides->the_post();
         $return_string .= '<li class="picture-list__item">';
-        $return_string .= '<img  class="picture-list__item__img" src="' . get_field_object('photo')['value']['sizes']['carre'] . '" alt="la photo de '. get_the_title() . '">';
+
+        /* START added by Mehdi */
+
+            // old way:
+
+                // $return_string .= '<img  class="picture-list__item__img" src="' . get_field_object('photo')['value']['sizes']['carre'] . '" alt="la photo de '. get_the_title() . '">';
+
+                // problem: get_field_object('field')['index'] doesn't work under PHP 5.3.x (like ingrwf03.cepegra.be)
+
+            // new way:
+
+                // better: 1) get_field returns an array 2) use the array['index']
+                $picture_guide_src = get_field_object('photo'); // that's 1)
+                $picture_guide_src = $picture_guide_src['value']['sizes']['carre']; // that's 2)
+
+                $return_string .= '<img  class="picture-list__item__img" src="' .$picture_guide_src. '" alt="la photo de '. get_the_title() . '">';
+
+        /* STOP added by Mehdi */
+
         $return_string .= '</li>';
     endwhile;
     $return_string .= '</ul></div>';

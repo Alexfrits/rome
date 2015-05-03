@@ -59,10 +59,10 @@ include_once('dev-helpers.php');
     $visit_referer = explode('/', wp_get_referer());
     $visit_referer = ($visit_referer [0] != null ? $visit_referer[count($visit_referer) - 2] : '');
 
-    $visites_query = [
+    $visites_query = array(
         'taxonomy'      => 'visites',
         'hide_empty'    => 1
-    ];
+    );
 
     $visites = get_categories($visites_query);
     $option_str = '<option value=""></option>';
@@ -163,7 +163,7 @@ include_once('dev-helpers.php');
             // a($err_list);
 
             // init error messages (NEED IMPROVMENTS)
-            $err_msg_list = [
+            $err_msg_list = array(
                 'visite' =>'Vous n’avez pas choisi de visite.',
                 'date' =>'La date doit être comprise entre '.date('d/m/Y',time() + 86400).' et '.date('d/m/Y',time() + $visit_max * 86400).'.',
                 'heure' =>'Le format d’heure doit ressembler à, par exemple, 14:00.',
@@ -171,7 +171,7 @@ include_once('dev-helpers.php');
                 'nom' => 'Un nom en moins de 2 caractères&nbsp;? Allons…',
                 'mail' => 'Une adresse électronique ressemble à <em>nom@domaine.com</em>.',
                 'tel' => 'Ce numéro de téléphone est moche.'
-            ];
+            );
 
             // store error msg like $err_msg_liste['mail'] = 'Format de mail incorrect.'
             foreach ($err_list as $e) {

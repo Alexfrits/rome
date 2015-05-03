@@ -8,10 +8,22 @@
     */
 
     // récupération des catégories (taxonomies) custom (paramètre '_builtin' => false)
-    $args = [
-        'public' => true,
-        '_builtin' => false
-    ];
+
+    /* this syntax doesn't work with PHP < 5.4 */
+
+        // $args = [
+        //     'public' => true,
+        //     '_builtin' => false
+        // ];
+
+    /* this works with PHP 5.4 */
+
+        $args = array(
+            'public' => true,
+            '_builtin' => false
+        );
+
+
     $output = 'name';
     $tax = get_taxonomies($args, $output);
 
@@ -21,10 +33,10 @@
             echo '<h2>' . $v->labels->name . '</h2>';
             // crée la liste des items de la catégorie
             echo '<ul>';
-            $args = [
+            $args = array(
                 'taxonomy'      => $v->name,
                 'hide_empty'    => 1
-            ];
+            );
             $cat = get_categories($args);
 
              foreach ($cat as $i => $u) {

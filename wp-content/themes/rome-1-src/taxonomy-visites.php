@@ -8,10 +8,10 @@
 <?php if(have_posts()) : ?>
     <?php
         // initialisation de l'array qui contient les coordonnées de tous les lieux affichés
-        $locations = []; ?>
+        $locations = array(); ?>
 
     <?php while(have_posts()) :
-        $location=[];
+        $location = array();
         the_post();
         if(get_field('duree_de_la_visite')) {
             $location['duree'] = get_field('duree_de_la_visite');
